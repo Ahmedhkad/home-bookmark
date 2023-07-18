@@ -20,9 +20,9 @@ function countTitle() {
 
     $(".title").css("fontSize", fontsize);
   });
-  for (x = 1; x <= 35; x++) {
-    console.log("letter " + x + " font " + Math.floor(x.map(10, 35, 35, 15)));
-  }
+  // for (x = 1; x <= 35; x++) {
+  //   console.log("letter " + x + " font " + Math.floor(x.map(10, 35, 35, 15)));
+  // }
 
   
 
