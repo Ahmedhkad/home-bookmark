@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Get URL Popup</title>
+    <!--
+        "permissions": [ "activeTab" ],
+   "short_name": "Get Favicon",
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+     -->
+    <link rel="icon" type="image/png" href="./icons/home-bookmark.png" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/color-thief.umd.js"></script>
+
+    <script src="js/popup.js"></script>
+    <script src="js/title.js"></script>
+</head>
+
+<body>
+
+
+    <div id="container">
+
+        <div id="card" class="card">
+            <div id="top" class="icon">
+                <img id="icon" src="./icons/default.png" alt="" title="local">
+            </div>
+            <div class="details">
+
+                <p class="title" id="webTitle"></p>
+
+                <p class="domainurl" id="domain"></p>
+            </div>
+
+        </div>
+
+        <div id="MetaContainer">
+            <div id="urls">
+                <a id="webUrl" href=" ">WebpageURL</a>
+                <a id="iconUrl" href=" ">FaviconURL</a>
+            </div>
+            <div id="title">
+                <span>Title:</span>
+                <br>
+                <input type='text' id="titleInput" placeholder="title here!">
+                <span>URL:</span>
+                <br>
+                <input type='text' id="urlInput" placeholder="URL here!">
+            </div>
+        </div>
+        <div class="btn">
+            <div id="maxColor">min</div>
+            <button id="publishButton">Add to Bookmarks</button>
+            <div id="minColor">max</div>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

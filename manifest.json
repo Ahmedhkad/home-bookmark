@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Home Bookmark",
+    "description": "Add Bookmarks with stylish Icon and Title",
+    "version": "0.1.0",
+    "content_scripts": [ {
+      "matches": ["*://*/*"],
+      "js": ["js/jquery.min.js" , "js/color-thief.umd.js" , "js/title.js"]
+    } ],
+    "permissions": [ "tabs" , "favicon" ],
+     
+    "host_permissions": [
+        "http://192.168.1.1:8080/*"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "./icons/home-bookmark.png"
+    } 
+  }
+
