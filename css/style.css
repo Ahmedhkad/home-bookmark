@@ -103,20 +103,26 @@ body {
 
 #maxColor, #minColor{
   padding: 5px 15px;
+  border-radius: 8px;
   margin: auto;
 }
 
+.palette {
+  display: flex;
+    justify-content: center;
+}
 .palette > div { 
-  width: 20px; 
-  height: 20px; 
+  border-radius: 8px;
+  width: 25px;
+  height: 25px;
   background-color: var(--color);
-  margin: 2px;
-  &::after {
+  margin: 6px;
+  /* &::after {
       content: attr(color);
       font-family: monospace;
       margin-left: 24px;
       white-space: nowrap;
       color: white;
-  }
+  } */
 }
  
