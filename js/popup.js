@@ -44,7 +44,6 @@ $(document).ready(function () {
     var webTitle = tab.title;
     $('#webTitle').text(webTitle);
     $('#titleInput').attr("value", webTitle);
-    // $('#webTitle2').text(webTitle);
 
 
     $(function () {
@@ -53,7 +52,7 @@ $(document).ready(function () {
       $('#domain').text(domain);
 
     })
-    // try {
+
       function runGetColor(){
 
       
@@ -62,14 +61,15 @@ $(document).ready(function () {
     const cardDiv = document.getElementById("card");
     const iconImg = document.getElementById("icon");
     if (isSVG) {
-      console.log("Can't get favicon colors");
-      // const cardDiv = document.getElementById("card");
-      cardDiv.setAttribute("style", `background: linear-gradient(to left, grey , black)`);
+      console.log("Can't get favicon colors from SVG");
+  
       $('#maxColor').attr("style", `background-color: white  `);
       $('#minColor').attr("style", `background-color:  black `);
+
+      setCardColor();
+
     }
     else if (!isSVG) {
-
 
       if (iconImg.complete) {
         cardDiv.setAttribute("style", `background: linear-gradient(to left, rgb(${colorThief.getColor(iconImg)}), black)`);
@@ -77,6 +77,9 @@ $(document).ready(function () {
         console.log("iconImg not complete");
       } else {
         iconImg.addEventListener('load', function () {
+
+          // $('.rainbow').attr("style", `display:none`);
+
           cardDiv.setAttribute("style", `background: linear-gradient(to left, rgb(${colorThief.getColor(iconImg)}), black)`);
 
           obj = colorThief.getPalette(iconImg);
@@ -105,16 +108,20 @@ $(document).ready(function () {
 
           $('#maxColor').attr("style", `background-color:  rgb(${obj[indexmaxV]}) `);
           $('#minColor').attr("style", `background-color:  rgb(${obj[indexminV]}) `);
-          
+
           const palette = document.querySelector('.palette');
-          obj.reduce( (palette,rgb) => {
+          obj.reduce( (palette,rgb, pos) => {
             const color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;        
             const swatch = document.createElement('div');
             swatch.style.setProperty('--color', color);
             swatch.setAttribute('color', color);
+            swatch.setAttribute('id', `palette`+pos);
+            swatch.setAttribute('class', `itemColor`);
             palette.appendChild(swatch);
             return palette;
         }, palette)
+
+        setCardColor();
 
         });
       }
@@ -125,6 +132,16 @@ $(document).ready(function () {
     countTitle();
   });
 
+  function setCardColor(){
+  const cardColor = document.getElementById("card");
+  $(".itemColor").click(function () {
+    var imgID = $(this).prop('id').replace("palette", "");
+    // console.log(imgID);
+    const imgRGB = $(this).attr("color");
+    // console.log(imgRGB);
+    cardColor.setAttribute("style", `background: linear-gradient(to left, ${imgRGB}, black)`);
+})
+}
 
 
 });
