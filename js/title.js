@@ -24,25 +24,21 @@ function countTitle() {
   //   console.log("letter " + x + " font " + Math.floor(x.map(10, 35, 35, 15)));
   // }
 
-  
-
 } // countTitle end
-
 
 
 //creates a listener for when you press a key
 window.onkeyup = keyup;
 
-//creates a global Javascript variable
 var inputTextValue;
 
 function keyup(e) {
-  //setting your input text to the global Javascript Variable for every key press
   inputTextValue = e.target.value;
   $('.title').text(inputTextValue);
-  //listens for you to press the ENTER key, at which point your web address will change to the one you have input in the search box
+  //listens for you to press the ENTER key
   // if (e.keyCode == 13) {
   //   window.location = "https://duckduckgo.com/?q=" + inputTextValue;
   // }
+  countTitle();
 
 }
