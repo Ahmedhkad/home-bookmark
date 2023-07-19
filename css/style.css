@@ -94,16 +94,29 @@ body {
 }
 
 #publishButton{
-  color: rgb(240, 240, 240);
-  text-shadow: 2px 2px 5px black, -2px 1px 5px black;
+  font-weight: bold;
+  /* text-shadow: 2px 2px 5px black ; */
   margin-top: 10px;
   padding: 4px 40px 4px 40px;
     border-radius: 10px;
 }
 
 #maxColor, #minColor{
-  padding: 15px 25px;
+  padding: 5px 15px;
   margin: auto;
 }
 
+.palette > div { 
+  width: 20px; 
+  height: 20px; 
+  background-color: var(--color);
+  margin: 2px;
+  &::after {
+      content: attr(color);
+      font-family: monospace;
+      margin-left: 24px;
+      white-space: nowrap;
+      color: white;
+  }
+}
  
