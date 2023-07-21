@@ -32,14 +32,15 @@
 
                 <p class="title" id="webTitle"></p>
 
-                <p class="domainurl" id="domain"></p>
+                <p class="domainurl" id="domain" title=""></p>
+                 
             </div>
 
         </div>
 
         <div id="MetaContainer">
             <div id="urls">
-                <a id="webUrl" href=" ">WebpageURL</a>
+                <!-- <a id="webUrl" href=" ">WebpageURL</a> -->
                 <a id="iconUrl" href=" ">FaviconURL</a>
             </div>
             <div id="title">
@@ -56,25 +57,25 @@
                 <div class="palette"></div>
 
                 <div class="rainbow palette">
-                    <div color="rgb(0,0,0)" id="palette0" class="itemColor" style="--color: rgb(0,0,0);">
+                    <div color="rgb(0,0,0)" id="palette10" class="itemColor" style="--color: rgb(0,0,0);">
                     </div>
-                    <div color="rgb(128,128,128)" id="palette1" class="itemColor" style="--color: rgb(128,128,128);">
+                    <div color="rgb(128,128,128)" id="palette11" class="itemColor" style="--color: rgb(128,128,128);">
                     </div>
-                    <div color="rgb(192,192,192)" id="palette2" class="itemColor"
+                    <div color="rgb(192,192,192)" id="palette12" class="itemColor"
                         style="--color: rgb(192,192,192);"></div>
-                    <div color="rgb(0,0,255)" id="palette3" class="itemColor"
+                    <div color="rgb(0,0,255)" id="palette13" class="itemColor"
                         style="--color: rgb(0,0,255);"></div>
-                    <div color="rgb(0,128,0)" id="palette4" class="itemColor" style="--color: rgb(0,128,0);">
+                    <div color="rgb(0,128,0)" id="palette14" class="itemColor" style="--color: rgb(0,128,0);">
                     </div>
-                    <div color="rgb(128,0,0)" id="palette5" class="itemColor"
+                    <div color="rgb(128,0,0)" id="palette15" class="itemColor"
                         style="--color: rgb(128,0,0);"></div>
-                    <div color="rgb(255,0,0)" id="palette6" class="itemColor" style="--color: rgb(255,0,0);">
+                    <div color="rgb(255,0,0)" id="palette16" class="itemColor" style="--color: rgb(255,0,0);">
                     </div>
-                    <div color="rgb(128,0,128)" id="palette7" class="itemColor"
+                    <div color="rgb(128,0,128)" id="palette17" class="itemColor"
                         style="--color: rgb(128,0,128);"></div>
-                    <div color="rgb(128,128,0)" id="palette8" class="itemColor"
+                    <div color="rgb(128,128,0)" id="palette18" class="itemColor"
                         style="--color: rgb(128,128,0);"></div>
-                    <div color="rgb(255,255,255)" id="palette9" class="itemColor" style="--color: rgb(255,255,255);">
+                    <div color="rgb(255,255,255)" id="palette19" class="itemColor" style="--color: rgb(255,255,255);">
                     </div>
                 </div>
             </div>
@@ -82,8 +83,19 @@
         </div>
         <div class="btn">
             <div id="maxColor">min</div>
-            <button id="publishButton">Add to Bookmarks</button>
+            <button id="publishButton">Check URL</button>
             <div id="minColor">max</div>
+        </div>
+        <div id="status">
+
+            <details   >
+                <summary id="errTitle" >  </summary>
+                <div id="errLog">
+
+                </div>
+            </details>
+
+             
         </div>
 
 
