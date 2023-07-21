@@ -7,11 +7,14 @@
       "matches": ["*://*/*"],
       "js": ["js/jquery.min.js" , "js/color-thief.umd.js" , "js/title.js"]
     } ],
-    "permissions": [ "tabs" , "favicon" ],
+    "permissions": [ "tabs" , "favicon" , "bookmarks"],
      
     "host_permissions": [
         "http://192.168.1.1:8080/*"
     ],
+    "icons": { 
+      "128": "icons/home-bookmark.png"
+    },
     "action": {
       "default_popup": "popup.html",
       "default_icon": "./icons/home-bookmark.png"
