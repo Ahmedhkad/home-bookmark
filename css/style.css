@@ -125,4 +125,23 @@ body {
       color: white;
   } */
 }
+
+#errTitle{
+  color: red;
+  font-weight: bold;
+}
+#errLog{
+  background-color: azure;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+#errLog p{
+  padding-top: 10px;
+    margin: 0;
+    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+    
+}
  
