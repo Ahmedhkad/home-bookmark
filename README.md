@@ -6,6 +6,7 @@ its make div class "card" stylish and customaizable contains Image and Title and
 - get Title, Current Page URL, FavIcon and FavIcon main color
 - you can change the title
 - you can change card's background
+- font size in card changed automaticly by the length of title and trimmed on the 35th letter
 ---
 ## Screenshot if webpage that had a svg icon as in github
 
