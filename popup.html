@@ -29,13 +29,9 @@
                 <img id="icon" src="./icons/default.png" alt="" title="local">
             </div>
             <div class="details">
-
                 <p class="title" id="webTitle"></p>
-
-                <p class="domainurl" id="domain" title=""></p>
-                 
+                <p class="domainurl" id="domain" title=""></p>             
             </div>
-
         </div>
 
         <div id="MetaContainer">
@@ -43,7 +39,7 @@
                 <!-- <a id="webUrl" href=" ">WebpageURL</a> -->
                 <a id="iconUrl" href=" ">FaviconURL</a>
             </div>
-            <div id="title">
+            <div id="title" class="inputs">
                 <span>Title:</span>
                 <br>
                 <input type='text' id="titleInput" placeholder="title here!">
@@ -51,7 +47,7 @@
                 <br>
                 <input type='text' id="urlInput" placeholder="URL here!">
             </div>
-            <div id="colors">
+            <div class="colorsSection">
                 <span>Color:</span>
                 <br>
                 <div class="palette"></div>
@@ -81,15 +77,16 @@
             </div>
 
         </div>
-        <div class="btn">
-            <div id="maxColor">min</div>
-            <button id="publishButton">Check URL</button>
-            <div id="minColor">max</div>
+        <div class="Buttons">
+            <div id="maxColor"></div>
+            <button id="checkButton">Check URL</button>
+            <button id="BookmarkButton">Bookmark it</button>
+            <div id="minColor"></div>
         </div>
         <div id="status">
 
             <details   >
-                <summary id="errTitle" >  </summary>
+                <summary id="errTitle" >Click "Check URL" to see duplicated bookmarks</summary>
                 <div id="errLog">
 
                 </div>
