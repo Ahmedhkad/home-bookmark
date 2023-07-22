@@ -77,8 +77,8 @@ $(document).ready(function () {
     if (isSVG) {
       console.log("Can't get favicon colors from SVG");
 
-      $('#maxColor').attr("style", `background-color: white  `);
-      $('#minColor').attr("style", `background-color:  black `);
+      // $('#maxColor').attr("style", `background-color: white  `);
+      // $('#minColor').attr("style", `background-color:  black `);
 
       setCardColor();
 
@@ -95,7 +95,7 @@ $(document).ready(function () {
 
           obj = colorThief.getPalette(iconImg);
 
-          getMinMaxColor(obj); //show Min and Max value of palettes
+          // getMinMaxColor(obj); //show Min and Max value of palettes
 
           // $('.rainbow').attr("style", `display:none`);
           const palette = document.querySelector('.palette');
@@ -147,12 +147,34 @@ $(document).ready(function () {
 
 
 
-  document.getElementById("publishButton").addEventListener('click', function () {
-    console.log("clicked publish");
+  document.getElementById("checkButton").addEventListener('click', function () {
+    console.log("clicked check");
 
     checkCard();
 
-  });  //publish button
+  });  //check button
+
+  var bookmarkAdded = false;
+  
+  document.getElementById("BookmarkButton").addEventListener('click', function () {
+    console.log("clicked Bookmark Button ");
+
+    if (!bookmarkAdded) {
+      console.log(bookmarkCard("add"));
+      $('#BookmarkButton').removeClass("green").addClass("red").text("Remove Bookmark");
+      bookmarkAdded = true;
+    } else {
+      bookmarkCard("remove");
+      bookmarkAdded = false;
+      console.log(BookeID);
+      console.log("  bookmarkCard(remove); ");
+      $('#BookmarkButton').removeClass("red").addClass("green").text("Bookmark it");
+      
+    }
+
+    
+
+  });  //Bookmark button
 
 
 
