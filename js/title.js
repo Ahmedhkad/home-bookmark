@@ -35,7 +35,7 @@ chrome.bookmarks.onCreated.addListener(
 function bookmarkCard(addRemove) {
   const changedTitle = document.querySelector('#webTitle');
   const changedurl = document.querySelector('#domain').getAttribute("title");
-  
+
   if (addRemove == "add") {
 
     chrome.bookmarks.create(
@@ -53,7 +53,7 @@ function bookmarkCard(addRemove) {
 
         $('#errTitle').removeClass("red").addClass("green").text("Bookmark Successfully added");
         $('#errLog').text(" ");
-         
+
         console.log(" zz bookmarkCard(add);  inside chrome.bookmarks.create");
         // BookeID = Booked.id;
         // console.log(BookeID);
@@ -72,27 +72,21 @@ function bookmarkCard(addRemove) {
       },
     );  //end chrome.create
 
-  } 
-  if ( addRemove == "remove" ){
+  }
+  if (addRemove == "remove") {
     console.log("this  is remove");
     console.log(BookeID);
     if (BookeID >= 0) {
       console.log(" this zz chrome.bookmark.remove section");
-    console.log(BookeID);
-    chrome.bookmarks.remove(BookeID, (Removed) => {
-      console.log("removed success");
-      // console.log(Removed);
-      $('#errTitle').removeClass("green").addClass("red").text("Bookmark removed");
-
-    });
-
+      console.log(BookeID);
+      chrome.bookmarks.remove(BookeID, (Removed) => {
+        console.log("removed success");
+        // console.log(Removed);
+        $('#errTitle').removeClass("green").addClass("red").text("Bookmark removed");
+        $('#errLog').text("Bookmark ID: " + BookeID + "  removed!");
+      });
     }
-    
-
   }
-
-
-
 
 
 }
@@ -110,8 +104,8 @@ function checkCard() {
   changedurl = changeddomainZ.innerHTML
   console.log(changedurl);
 
-  const changedFaviconURL = document.querySelector('#iconUrl');
-  console.log(changedFaviconURL.getAttribute("href"));
+  // const changedFaviconURL = document.querySelector('#iconUrl');
+  // console.log(changedFaviconURL.getAttribute("href"));
 
   chrome.bookmarks.getTree(function (itemTree) {
     itemTree.forEach(function (item) {
