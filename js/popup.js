@@ -16,7 +16,7 @@ $(document).ready(function () {
     $('#urlInput').attr("value", weburl);
     var iconurl = tab.favIconUrl;
     if (iconurl) {
-      $('#iconUrl').attr("href", iconurl);
+      // $('#iconUrl').attr("href", iconurl);
       $('#icon').attr("src", iconurl);
 
       var xhttp = new XMLHttpRequest();
