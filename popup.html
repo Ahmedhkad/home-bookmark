@@ -16,7 +16,7 @@
     <script src="js/color-thief.umd.js"></script>
 
     <script src="js/popup.js"></script>
-    <script src="js/title.js"></script>
+    <!-- <script src="js/title.js"></script> -->
 </head>
 
 <body>
@@ -24,28 +24,31 @@
 
     <div id="container">
 
-        <div id="card" class="card">
+        <div id="card" class="card" style="background: linear-gradient(to left, rgb(92,92,92), black)">
             <div id="top" class="icon">
                 <img id="icon" src="./icons/default.png" alt="" title="local">
             </div>
             <div class="details">
                 <p class="title" id="webTitle"></p>
-                <p class="domainurl" id="domain" title=""></p>             
+                <p class="domainurl" id="domain" title=""></p>
             </div>
         </div>
 
         <div id="MetaContainer">
-            <!-- <div id="urls"> -->
-                <!-- <a id="webUrl" href=" ">WebpageURL</a> -->
-                <!-- <a id="iconUrl" href=" ">FaviconURL</a> -->
-            <!-- </div> -->
+
             <div id="title" class="inputs">
                 <span>Title:</span>
                 <br>
-                <input type='text' id="titleInput" placeholder="title here!">
+                <input class="inputHolder" type='text' id="titleInput" placeholder="title here!">
                 <span>URL:</span>
                 <br>
-                <input type='text' id="urlInput" placeholder="URL here!">
+                <input class="inputHolder" type='text' id="urlInput" placeholder="URL here!">
+                <span>Category:</span>
+                <br>
+                <select class="inputHolder" id="categories" cattext="Bookmarks bar" catvalue="1" >
+                    <!-- <option value="1">Bookmarks bar</option> -->
+                </select>
+                <button id="refreshButton">Reload</button>
             </div>
             <div class="colorsSection">
                 <span>Color:</span>
@@ -57,20 +60,16 @@
                     </div>
                     <div color="rgb(128,128,128)" id="palette11" class="itemColor" style="--color: rgb(128,128,128);">
                     </div>
-                    <div color="rgb(192,192,192)" id="palette12" class="itemColor"
-                        style="--color: rgb(192,192,192);"></div>
-                    <div color="rgb(0,0,255)" id="palette13" class="itemColor"
-                        style="--color: rgb(0,0,255);"></div>
+                    <div color="rgb(192,192,192)" id="palette12" class="itemColor" style="--color: rgb(192,192,192);">
+                    </div>
+                    <div color="rgb(0,0,255)" id="palette13" class="itemColor" style="--color: rgb(0,0,255);"></div>
                     <div color="rgb(0,128,0)" id="palette14" class="itemColor" style="--color: rgb(0,128,0);">
                     </div>
-                    <div color="rgb(128,0,0)" id="palette15" class="itemColor"
-                        style="--color: rgb(128,0,0);"></div>
+                    <div color="rgb(128,0,0)" id="palette15" class="itemColor" style="--color: rgb(128,0,0);"></div>
                     <div color="rgb(255,0,0)" id="palette16" class="itemColor" style="--color: rgb(255,0,0);">
                     </div>
-                    <div color="rgb(128,0,128)" id="palette17" class="itemColor"
-                        style="--color: rgb(128,0,128);"></div>
-                    <div color="rgb(128,128,0)" id="palette18" class="itemColor"
-                        style="--color: rgb(128,128,0);"></div>
+                    <div color="rgb(128,0,128)" id="palette17" class="itemColor" style="--color: rgb(128,0,128);"></div>
+                    <div color="rgb(128,128,0)" id="palette18" class="itemColor" style="--color: rgb(128,128,0);"></div>
                     <div color="rgb(255,255,255)" id="palette19" class="itemColor" style="--color: rgb(255,255,255);">
                     </div>
                 </div>
@@ -81,18 +80,19 @@
             <div id="maxColor"></div>
             <button id="checkButton">Check URL</button>
             <button id="BookmarkButton">Bookmark it</button>
+            <button id="StoreButton">Store it</button>
             <div id="minColor"></div>
         </div>
         <div id="status">
 
-            <details   >
-                <summary id="errTitle" >Click "Check URL" to see duplicated bookmarks</summary>
+            <details>
+                <summary id="errTitle">Click "Check URL" to see duplicated bookmarks</summary>
                 <div id="errLog">
 
                 </div>
             </details>
 
-             
+
         </div>
 
 
