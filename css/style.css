@@ -44,16 +44,25 @@ body {
 }
 
 /*                         Card style end                       */
- 
-.inputs *{
+
+.inputs .inputHolder {
   padding: 10px;
   width: -webkit-fill-available;
   border-radius: 25px;
 }
-.inputs span{
-color: #c1c1c1;
+#refreshButton {
+  position: absolute;
+  cursor: pointer;
+  right: 40px;
+  margin-top: 12px;
+  border-style: none;
+  border-radius: 20px;
+  font-size: 10px;
 }
-.colorsSection{
+.inputs span {
+  color: #c1c1c1;
+}
+.colorsSection {
   padding-top: 4px;
   padding-right: 10px;
   padding-left: 10px;
@@ -101,23 +110,21 @@ color: #c1c1c1;
   padding: 2px 11px;
 }
 
-.Buttons  {
+.Buttons {
   display: flex;
   justify-content: space-evenly;
   padding: 13px;
   gap: 10px;
 }
-.Buttons button{
+.Buttons button {
   border-radius: 26px;
-    padding: 8px 19px;
-    cursor: pointer;
+  padding: 8px 19px;
+  cursor: pointer;
 }
- 
 
 .palette {
   display: flex;
   justify-content: center;
-  
 }
 .palette > div {
   cursor: pointer;
@@ -144,16 +151,15 @@ color: #c1c1c1;
   font-weight: bold;
 }
 .yellow {
-  color: yellow  ;
-   
+  color: yellow;
 }
 
 details {
-    margin: 0 auto;
-    margin-bottom: 0.5rem;
-    box-shadow: 0 0.1rem 1rem -0.5rem rgba(0,0,0,.4);
-    border-radius: 10px;
-    overflow: hidden;
+  margin: 0 auto;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 0.1rem 1rem -0.5rem rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 #errTitle {
@@ -177,4 +183,20 @@ details {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+#errLog div:nth-child(odd) {
+  background-color: #e3e3e3;
+}
+
+#similar {
+  position: absolute;
+  right: 10px;
+  font-size: 15px;
+  color: red;
+  margin-top: -22px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 42%;
+  border-color: red;
+  cursor: pointer;
 }
