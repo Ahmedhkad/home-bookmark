@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var weburl = tab.url;
     $('#webUrl').attr("href", weburl);
     $('#urlInput').attr("value", weburl);
+    searchBookmark(weburl);
     var iconurl = tab.favIconUrl;
     if (iconurl) {
       // $('#iconUrl').attr("href", iconurl);
@@ -119,7 +120,28 @@ document.addEventListener("DOMContentLoaded", () => {
     } //end else if isSVG
   }
 
+function searchBookmark(currentURL) {
+  let searching = chrome.bookmarks.search({url: currentURL});
+        searching.then((bookmarks) => {
+          try {
+            console.log(bookmarks);
+          const currentBookmarkID = bookmarks['0'].id;
+          const currentBookmarkCategory = bookmarks['0'].parentId;
 
+          $('#errTitle').removeClass("red").addClass("green").text("We found this Bookmark with id: " + currentBookmarkID + "   you can (Store it)");
+          
+          $('#categories').attr("bookmarkid", currentBookmarkID);
+          } catch (error) {
+            console.log("searchs on bookmarks got no results, this url is uniqe");
+            $('#StoreButton').attr("disabled", true);
+          }
+          
+           
+          
+          
+          // document.getElementById('categories').value=currentBookmarkCategory;
+        });
+}
 
   document.getElementById("titleInput").addEventListener("keyup", function () {
     // console.log(this.value);
@@ -234,17 +256,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("BookmarkButton").addEventListener('click', function () {
     console.log("clicked Bookmark Button ");
+    
 
     if (!bookmarkAdded) {
       console.log(bookmarkCard("add"));
       $('#BookmarkButton').removeClass("green").addClass("red").text("Remove Bookmark");
       bookmarkAdded = true;
+      $('#StoreButton').attr("disabled", false);
     } else {
       bookmarkCard("remove");
       bookmarkAdded = false;
       console.log(BookeID);
       console.log("  bookmarkCard(remove); ");
       $('#BookmarkButton').removeClass("red").addClass("green").text("Bookmark it");
+      
 
     }
 
@@ -262,6 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const changedCategoryTitle = document.querySelector('#categories').getAttribute("cattext");
     const bookmarkID = document.querySelector('#categories').getAttribute("bookmarkid");
     const changedFont = document.querySelector('#webTitle').getAttribute("style");
+     
      
 
   //   testInject = {
