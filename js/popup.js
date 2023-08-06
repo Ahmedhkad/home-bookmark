@@ -87,61 +87,57 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     else if (!isSVG) {
 
-      if (iconImg.complete) {
+      // if (iconImg.complete) {}
+      iconImg.addEventListener('load', function () {
+        cardDiv.setAttribute("style", `background: linear-gradient(to left, rgb(${colorThief.getColor(iconImg)}), black)`);
 
-        // console.log(colorThief.getPalette(iconImg) ); 
-        console.log("iconImg complete");
-      } else {
-        iconImg.addEventListener('load', function () {
-          cardDiv.setAttribute("style", `background: linear-gradient(to left, rgb(${colorThief.getColor(iconImg)}), black)`);
+        obj = colorThief.getPalette(iconImg);
 
-          obj = colorThief.getPalette(iconImg);
+        // getMinMaxColor(obj); //show Min and Max value of palettes
 
-          // getMinMaxColor(obj); //show Min and Max value of palettes
+        // $('.rainbow').attr("style", `display:none`);
+        const palette = document.querySelector('.palette');
+        obj.reduce((palette, rgb, pos) => {
+          const color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+          const swatch = document.createElement('div');
+          swatch.style.setProperty('--color', color);
+          swatch.setAttribute('color', color);
+          swatch.setAttribute('id', `palette` + pos);
+          swatch.setAttribute('class', `itemColor`);
+          palette.appendChild(swatch);
+          return palette;
+        }, palette)
 
-          // $('.rainbow').attr("style", `display:none`);
-          const palette = document.querySelector('.palette');
-          obj.reduce((palette, rgb, pos) => {
-            const color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
-            const swatch = document.createElement('div');
-            swatch.style.setProperty('--color', color);
-            swatch.setAttribute('color', color);
-            swatch.setAttribute('id', `palette` + pos);
-            swatch.setAttribute('class', `itemColor`);
-            palette.appendChild(swatch);
-            return palette;
-          }, palette)
+        setCardColor();
 
-          setCardColor();
+      });
 
-        });
-      }
 
     } //end else if isSVG
   }
 
-function searchBookmark(currentURL) {
-  let searching = chrome.bookmarks.search({url: currentURL});
-        searching.then((bookmarks) => {
-          try {
-            console.log(bookmarks);
-          const currentBookmarkID = bookmarks['0'].id;
-          const currentBookmarkCategory = bookmarks['0'].parentId;
+  function searchBookmark(currentURL) {
+    let searching = chrome.bookmarks.search({ url: currentURL });
+    searching.then((bookmarks) => {
+      try {
+        console.log(bookmarks);
+        const currentBookmarkID = bookmarks['0'].id;
+        const currentBookmarkCategory = bookmarks['0'].parentId;
 
-          $('#errTitle').removeClass("red").addClass("green").text("We found this Bookmark with id: " + currentBookmarkID + "   you can (Store it)");
-          
-          $('#categories').attr("bookmarkid", currentBookmarkID);
-          } catch (error) {
-            console.log("searchs on bookmarks got no results, this url is uniqe");
-            $('#StoreButton').attr("disabled", true);
-          }
-          
-           
-          
-          
-          // document.getElementById('categories').value=currentBookmarkCategory;
-        });
-}
+        $('#errTitle').removeClass("red").addClass("green").text("We found this Bookmark with id: " + currentBookmarkID + "   you can (Store it)");
+
+        $('#categories').attr("bookmarkid", currentBookmarkID);
+      } catch (error) {
+        console.log("searchs on bookmarks got no results, this url is uniqe");
+        $('#StoreButton').attr("disabled", true);
+      }
+
+
+
+
+      // document.getElementById('categories').value=currentBookmarkCategory;
+    });
+  }
 
   document.getElementById("titleInput").addEventListener("keyup", function () {
     // console.log(this.value);
@@ -169,58 +165,60 @@ function searchBookmark(currentURL) {
   }, false);
 
 
-  
- document.getElementById("refreshButton").addEventListener('click', function () {
+
+  document.getElementById("refreshButton").addEventListener('click', function () {
     console.log("clicked refresh");
 
     chrome.bookmarks.getTree(function (itemTree) {
-      const bookmarkBarChildren =itemTree[0].children[0].children
+      const bookmarkBarChildren = itemTree[0].children[0].children
       // console.log(bookmarkBarChildren);
- let bookmarkitems = {
-  "bookmarksCategory":{1
-    : 
-    {title: 'Bookmarks bar', id: '1'}}
- };
+      let bookmarkitems = {
+        "bookmarksCategory": {
+          1
+            :
+            { title: 'Bookmarks bar', id: '1' }
+        }
+      };
       bookmarkBarChildren.forEach(function (item) {
-        
 
-        if(item.parentId == 1 && item.dateGroupModified) { 
-          let bookmarkitem = {  
+
+        if (item.parentId == 1 && item.dateGroupModified) {
+          let bookmarkitem = {
             "title": item.title,
-            "id": item.id  
-          } 
+            "id": item.id
+          }
 
           console.log(bookmarkitem);
 
-          Object.assign(bookmarkitems.bookmarksCategory, { [item.id] : bookmarkitem } );
+          Object.assign(bookmarkitems.bookmarksCategory, { [item.id]: bookmarkitem });
           var option = document.createElement("option");
           option.text = item.title;
           option.value = item.id;
-          
+
           var select = document.getElementById("categories");
           select.appendChild(option);
 
         }
-        
+
       });
       console.log(bookmarkitems);
-   
+
       chrome.storage.local.set(bookmarkitems).then(() => {
         console.log("bookmarkitems is set");
       });
-       
+
       chrome.storage.local.get(["bookmarksCategory"]).then((result) => {
-        console.log("Value currently is " );
+        console.log("Value currently is ");
         console.log(result);
       });
 
-    }); 
-  }) ;
-  
+    });
+  });
+
 
   try {
     chrome.storage.local.get(['bookmarksCategory']).then((result) => {
-      console.log("Value currently is " );
+      console.log("Value currently is ");
       console.log(result);
       const inside = result.bookmarksCategory
 
@@ -228,19 +226,19 @@ function searchBookmark(currentURL) {
 
         // console.log(inside[cat]);
 
-          var option = document.createElement("option");
-          option.text = inside[cat].title;
-          option.value = inside[cat].id;
-          
-      var select = document.getElementById("categories");
-          select.appendChild(option);
-      } 
-       
+        var option = document.createElement("option");
+        option.text = inside[cat].title;
+        option.value = inside[cat].id;
 
-      
- 
+        var select = document.getElementById("categories");
+        select.appendChild(option);
+      }
+
+
+
+
     });
-    
+
   } catch (error) {
     console.log("stored bookmark's category not found , please click refresh");
   }
@@ -256,7 +254,7 @@ function searchBookmark(currentURL) {
 
   document.getElementById("BookmarkButton").addEventListener('click', function () {
     console.log("clicked Bookmark Button ");
-    
+
 
     if (!bookmarkAdded) {
       console.log(bookmarkCard("add"));
@@ -269,7 +267,7 @@ function searchBookmark(currentURL) {
       console.log(BookeID);
       console.log("  bookmarkCard(remove); ");
       $('#BookmarkButton').removeClass("red").addClass("green").text("Bookmark it");
-      
+
 
     }
 
@@ -287,133 +285,20 @@ function searchBookmark(currentURL) {
     const changedCategoryTitle = document.querySelector('#categories').getAttribute("cattext");
     const bookmarkID = document.querySelector('#categories').getAttribute("bookmarkid");
     const changedFont = document.querySelector('#webTitle').getAttribute("style");
-     
-     
 
-  //   testInject = {
-  //     "886": {
-  //         "CategoryID": "179",
-  //         "CategoryTitle": "Electronic tools",
-  //         "Domain": "www.youtube.com",
-  //         "Font": "font-size: 26px;",
-  //         "Icon": "https://www.youtube.com/s/desktop/83a619e0/img/favicon_32x32.png",
-  //         "Style": "background: linear-gradient(to left, rgb(249,5,5), black)",
-  //         "Title": "YouTube",
-  //         "URL": "https://www.youtube.com/"
-  //     },
-  //     "887": {
-  //         "CategoryID": "5",
-  //         "CategoryTitle": "new bar",
-  //         "Domain": "Zstackoverflow.com",
-  //         "Font": "font-size: 15px;",
-  //         "Icon": "https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico?v=ec617d715196",
-  //         "Style": "background: linear-gradient(to left, rgb(244,131,36), black)",
-  //         "Title": "ZZZ - Stack Overflow",
-  //         "URL": "https://stackoverflow.com/questions/16216214/how-to-avoid-typeerror-cannot-set-property-onchange-of-null"
-  //     },
-  //     "888": {
-  //         "CategoryID": "1",
-  //         "CategoryTitle": "Bookmarks bar",
-  //         "Domain": "superuser.com",
-  //         "Font": "font-size: 15px;",
-  //         "Icon": "https://cdn.sstatic.net/Sites/superuser/Img/favicon.ico?v=4852d6fb3f5d",
-  //         "Style": "background: linear-gradient(to left, rgb(44,172,228), black)",
-  //         "Title": "ZZwindows 7 - How to get the URL Icons on Bookmarks - Google Chrome? - Super User",
-  //         "URL": "https://superuser.com/questions/1264876/how-to-get-the-url-icons-on-bookmarks-google-chrome"
-  //     },
-  //     "889": {
-  //         "CategoryID": "1",
-  //         "CategoryTitle": "Bookmarks bar",
-  //         "Domain": "www.youtube.com",
-  //         "Font": "font-size: 15px;",
-  //         "Icon": "https://www.youtube.com/s/desktop/83a619e0/img/favicon_32x32.png",
-  //         "Style": "background: linear-gradient(to left, rgb(92,92,92), black)",
-  //         "Title": "ZZHow to make Chrome Extension 13 localStorage and chrome.storage - YouTube",
-  //         "URL": "https://www.youtube.com/watch?v=VhFYbHtC61E"
-  //     },
-  //     "890": {
-  //         "CategoryID": "271",
-  //         "CategoryTitle": "Service-Electronic",
-  //         "Domain": "www.google.com",
-  //         "Font": "font-size: 15px;",
-  //         "Icon": "https://www.google.com/favicon.ico",
-  //         "Style": "background: linear-gradient(to left, rgb(243,198,183), black)",
-  //         "Title": "ZZchrome extension storage api delete - Поиск в Google",
-  //         "URL": "https://www.google.com/search?q=chrome+extension+storage+api+delete&newwindow=1&sxsrf=AB5stBiyfdv8HfGBjIf8JP-lghZO-NJaGg%3A1690747084505&ei=zMDGZKW2Hq2TwPAP-ZWLqAs&oq=chrome+extension+storage+api+de&gs_lp=Egxnd3Mtd2l6LXNlcnAiH2Nocm9tZSBleHRlbnNpb24gc3RvcmFnZSBhcGkgZGUqAggBMgUQIRigATIFECEYoAEyBRAhGKABMgUQIRigATIFECEYoAEyCBAhGBYYHhgdMggQIRgWGB4YHTIIECEYFhgeGB0yCBAhGBYYHhgdMggQIRgWGB4YHUj0JVDREFjBG3ABeAGQAQCYAY8BoAHbAqoBAzEuMrgBAcgBAPgBAcICChAAGEcY1gQYsAPCAgYQABgWGB7iAwQYACBBiAYBkAYI&sclient=gws-wiz-serp"
-  //     },
-  //     "891": {
-  //         "CategoryID": "310",
-  //         "CategoryTitle": "TV channels",
-  //         "Domain": "www.geeksforgeeks.org",
-  //         "Font": "font-size: 15px;",
-  //         "Icon": "https://media.geeksforgeeks.org/wp-content/cdn-uploads/gfg_favicon.png",
-  //         "Style": "background: linear-gradient(to left, rgb(44,140,68), black)",
-  //         "Title": "ZZHow to compare two objects to determine the first object contains equivalent property values to the second object in JavaScript ? - GeeksforGeeks",
-  //         "URL": "https://www.geeksforgeeks.org/how-to-compare-two-objects-to-determine-the-first-object-contains-equivalent-property-values-to-the-second-object-in-javascript/"
-  //     },
-  //     "892": {
-  //         "CategoryID": "310",
-  //         "CategoryTitle": "TV channels",
-  //         "Domain": "only-to-top.ru",
-  //         "Font": "font-size: 15px;",
-  //         "Icon": "https://only-to-top.ru/assets/img/favicon/favicon.ico",
-  //         "Style": "background: linear-gradient(to left, rgb(128,128,0), black)",
-  //         "Title": "ZZjQuery to JS — Переход к нативному JavaScript | Only to top",
-  //         "URL": "https://only-to-top.ru/blog/coding/2019-09-24-jquery-to-js.html"
-  //     },
-  //     "894": {
-  //         "CategoryID": "3",
-  //         "CategoryTitle": "Server",
-  //         "Domain": "192.168.1.1",
-  //         "Font": "font-size: 26px;",
-  //         "Icon": "http://192.168.1.1/images/favicon.ico",
-  //         "Style": "background: linear-gradient(to left, rgb(252, 69, 69), black)",
-  //         "Title": "ZZAC1200G",
-  //         "URL": "http://192.168.1.1/"
-  //     },
-  //     "895": {
-  //         "CategoryID": "3",
-  //         "CategoryTitle": "Server",
-  //         "Domain": "192.168.1.199",
-  //         "Font": "font-size: 25px;",
-  //         "Icon": "http://192.168.1.199:1880/favicon.ico",
-  //         "Style": "background: linear-gradient(to left, rgb(140, 4, 4), black)",
-  //         "Title": "ZZNode-RED",
-  //         "URL": "http://192.168.1.199:1880/"
-  //     },
-  //     "896": {
-  //         "CategoryID": "3",
-  //         "CategoryTitle": "Server",
-  //         "Domain": "192.168.1.167",
-  //         "Font": "font-size: 21px;",
-  //         "Icon": "./icons/default.png",
-  //         "Style": "background: linear-gradient(to left, rgb(92,92,92), black)",
-  //         "Title": "ZZ192.168.1.167:16780",
-  //         "URL": "http://192.168.1.167:16780/"
-  //     },
-  //     "897": {
-  //         "CategoryID": "409",
-  //         "CategoryTitle": "OrangePi - Linux",
-  //         "Domain": "extensions",
-  //         "Font": "font-size: 25px;",
-  //         "Icon": "./icons/default.png",
-  //         "Style": "background: linear-gradient(to left, rgb(92,92,92), black)",
-  //         "Title": "ZZ Extensions",
-  //         "URL": "chrome://extensions/"
-  //     }
-  // }
-  // chrome.storage.local.set(testInject)
+
+
     chrome.storage.local.set({
-      [bookmarkID]: {  
+      [bookmarkID]: {
         "Title": changedTitle.innerHTML,
         "Font": changedFont,
         "URL": changedURL,
         "Domain": chnagedDomain,
         "Style": changedCard,
         "Icon": changedIcon,
-        "CategoryID" : changedCategoryID,
-        "CategoryTitle" : changedCategoryTitle
-      } 
+        "CategoryID": changedCategoryID,
+        "CategoryTitle": changedCategoryTitle
+      }
     }).then(() => {
       console.log("Value is set stored local");
     });
@@ -666,11 +551,10 @@ $(document).on("click", "#similar", function () {
 });
 
 $(document).on("change", "#categories", function () {
- let catText = this.options[this.selectedIndex].text
- let catValue = this.options[this.selectedIndex].value
+  let catText = this.options[this.selectedIndex].text
+  let catValue = this.options[this.selectedIndex].value
   console.log(catText);
   console.log(catValue);
   $('#categories').attr("cattext", catText).attr("catvalue", catValue);
- 
+
 });
- 
