@@ -1,0 +1,57 @@
+   /* smallwide */
+
+.card-smallwide {
+box-shadow: 0px 0px 7px 0px grey;
+    background-color: #232323;
+    text-align: center;
+    border-radius: 5px;
+    overflow: hidden;
+    /* margin: 2em auto; */
+    margin-top: 15px;
+    height: 35px !important;
+    width: 260px !important;
+    display: block;
+    text-decoration: none!important;
+  }
+
+  .details-smallwide {
+    /* margin-top: -6px; */
+    /* padding-bottom: 4px; */
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    /* padding: 5px; */
+    height: 35px;
+    color: lemonchiffon;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .title-smallwide {
+    padding: 5px;
+    margin: 0;
+    /* text-shadow: 4px 4px 5px #000000, -3px 7px 5px #000000; */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical; 
+    font-size: 18px !important;
+  }
+
+  .domainurl-smallwide {
+    display: none;
+  }
+
+  .icon-smallwide  {
+    display: flex;
+    padding-left: 10px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    height: 35px;
+    float: left;
+  }
+  .card-smallwide img {
+    height: 30px;
+  }
