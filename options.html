@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Options Home Bookmark</title>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/color-thief.umd.js"></script>
+  <link rel="stylesheet" href="./css/newtab.css">
+  <link rel="stylesheet" href="./css/newtab-smallwide.css">
+  <link rel="stylesheet" href="./css/options.css">
+  <link rel="icon" type="image/png" href="./icons/gear_icon.svg" />
+</head>
+
+<body>
+
+  <div class="option-container">
+    <h2>Options Home Bookmark</h2>
+
+    <div class="bookmark-options">
+      <button class="btn green" id="storeBookmarks">Store Bookmarks</button>
+      <button class="btn green" id="getIcons">getIcons</button>
+      <button class="btn green" id="getEncodedIcon">getEncodedIcon</button>
+      <button class="btn green" id="getIconColor">getIconColor</button>
+      <button class="btn red" id="saveToStorage">saveToStorage</button>
+    </div>
+
+    <div class="storage-options">
+      <button class="btn green" id="showStorage">showStorage</button>
+      <button class="btn green" id="downloadStorage">downloadStorage</button>
+      <input class=" " type="file" id="file-selector" accept=".json,.txt">
+      <button class="btn red" id="clearStorage">clearStorage</button>
+    </div>
+
+    <textarea id="storage" rows="8" cols="100" readonly>
+      "Store Bookmarks" only gets Titles and URLs 
+      "Get Icon Domain" updates previos data with Icon url and domians 
+      "Get Encoded Icon" convert icons to Encode64 strings
+      "Get Icon Color" generate color from Encoded Icon
+      "Save to Storage" OVERWRITE all storage with Full bookmarks list!
+      ---- click "Show cards" below to see results before "Save to Storage" ----
+    </textarea>
+    <br>
+
+    <button class="btn green" id="showCards">Show cards without save</button>
+
+    <div id="Log" class="bookmarks-list"> </div>
+
+  </div>
+
+  <script src="./js/options.js"></script>
+</body>
+
+</html>
