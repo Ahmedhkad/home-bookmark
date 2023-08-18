@@ -174,44 +174,40 @@ const downloadStorage = () => {
         downloadTextFile(result, 'backup-home-bookmark.json');
     });
 }
- 
+
 function readSingleFile(event) {
-    
-    const file = event.target.files[0]; 
+
+    const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
-      reader.onload = function(e) { 
-	      const contents = e.target.result;
-        console.log( "Got the file: \n" 
-              +"name: " + file.name + "\n"
-              +"type: " + file.type + "\n"
-              +"size: " + file.size + " bytes\n"
-              )
-          
-        // console.dir(contents)
-        backupContent = contents
-        
-        chrome.storage.local.set(JSON.parse(contents))
-      }
-      reader.readAsText(file);
-    } else { 
+        reader.onload = function (e) {
+            const contents = e.target.result;
+            console.log("Got the file: \n"
+                + "name: " + file.name + "\n"
+                + "type: " + file.type + "\n"
+                + "size: " + file.size + " bytes\n"
+            )
+            chrome.storage.local.set(JSON.parse(contents))
+        }
+        reader.readAsText(file);
+    } else {
         console.dir("Failed to load file");
     }
-     
-  }
 
-const clearStorage = ()=>{
-    chrome.storage.local.clear(function() {
-    const  error = chrome.runtime.lastError;
-    if (error) {
-        console.error(error);
-    }
-    console.log('Storage clean');
-});
-  }
- 
-  
-const printAllBookmarks  = ()=>{
+}
+
+const clearStorage = () => {
+    chrome.storage.local.clear(function () {
+        const error = chrome.runtime.lastError;
+        if (error) {
+            console.error(error);
+        }
+        console.log('Storage clean');
+    });
+}
+
+
+const printAllBookmarks = () => {
     const textArea = document.getElementById('storage')
     textArea.innerHTML = ('Loading ... ')
     setTimeout(() => {
@@ -220,7 +216,7 @@ const printAllBookmarks  = ()=>{
     }, 1000);
 }
 
-const printStorage  = () =>{
+const printStorage = () => {
     chrome.storage.local.get(null, (items) => {
         console.log(items);
         document.getElementById('storage').value = JSON.stringify(items)
@@ -231,15 +227,15 @@ document.getElementById('file-selector').addEventListener('change', readSingleFi
 
 
 document.getElementById('saveToStorage').addEventListener('click',
-saveToStorage);
+    saveToStorage);
 
 document.getElementById('downloadStorage').addEventListener('click',
     downloadStorage);
 document.getElementById('showStorage').addEventListener('click',
-printStorage);
+    printStorage);
 
 document.getElementById('clearStorage').addEventListener('click',
-clearStorage);
+    clearStorage);
 
 document.getElementById('storeBookmarks').addEventListener('click',
     storeBookmarks);
