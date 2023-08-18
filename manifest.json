@@ -18,6 +18,7 @@
     "icons": { 
       "128": "icons/home-bookmark.png"
     },
+    "options_page": "options.html",
     "action": {
       "default_popup": "popup.html",
       "default_icon": "./icons/home-bookmark.png"
