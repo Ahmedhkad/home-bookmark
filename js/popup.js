@@ -19,10 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
     var iconurl = tab.favIconUrl;
     if (iconurl) {
       // $('#iconUrl').attr("href", iconurl);
-      $('#icon').attr("src", iconurl);
+      // $('#icon').attr("src", iconurl);
 
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
+   
         if (this.readyState == 4 && this.status == 200) {
           const iconType = this.getResponseHeader('content-type');
           console.log(iconType)
@@ -35,10 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("isSVG false");
           }
           runGetColor(isSVG);
+          getIconEncode(iconurl, iconType)
         }
+        
       };
       xhttp.open("HEAD", iconurl, true);
       xhttp.send();
+      
     }
 
     var webTitle = tab.title;
@@ -57,6 +61,24 @@ document.addEventListener("DOMContentLoaded", () => {
     countTitle();
     setCardColor();
   });
+
+  const getIconEncode = (url, iconType) => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.responseType = 'arraybuffer';
+      xhttp.onload = function() {
+        //Array of 8-bit unsigned int
+        var arr = new Uint8Array(this.response);
+        // String.fromCharCode returns a 'string' from the specified sequence of Unicode values
+        var raw = String.fromCharCode.apply(null, arr);
+        //create base-64 encoded ASCII string from a String object 
+        var b64 = btoa(raw);
+        var dataURL = 'data:'+ iconType + ';base64,' + b64;
+        console.log(dataURL);
+        $('#icon').attr("src", dataURL);
+      };
+      xhttp.open("GET", url, true);
+      xhttp.send();
+  }
 
   function setCardColor() {
     const cardColor = document.getElementById("card");
