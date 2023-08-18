@@ -64,7 +64,8 @@ body {
 }
 
 #tabcontainer {
-  width: fit-content;
+  width: auto;
+  /* width: fit-content; */
   margin: auto;
   /* background: linear-gradient(1deg, black, transparent); */
   /* padding: 22px; */
