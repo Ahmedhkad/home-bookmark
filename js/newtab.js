@@ -1,36 +1,19 @@
-console.log("net tab js wokrs");
-
 chrome.storage.local.get(null, function (items) {
-    // console.log(allKeys +" : " + allvalues );
     console.log(items);
     buildCats(items)
 });
 
-// //clear storage
-// chrome.storage.local.clear(function() {
-//     var error = chrome.runtime.lastError;
-//     if (error) {
-//         console.error(error);
-//     }
-//     // do something more
-// });
-
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("showDel").addEventListener('click', function () {
-        //  const deleteItem = document.querySelector('#deleteItem');
-        //  deleteItem.setAttribute("style", "display:block ");
-
         const deleteItems = document.querySelectorAll('.btn');
-        for (const item in deleteItems){
-            deleteItems[item].classList.toggle("visible");
+        for (const item in deleteItems) {
+            if (item !== undefined) {
+                let itemToDel = deleteItems[item]
+                console.log(itemToDel);
+                itemToDel.classList.toggle("visible");
+            }
         }
-        // for (var i = 0; i < deleteItem.length; i++) {
-        //     // els[i].setAttribute("style", "visibility :visible");
-        //     deleteItem[i].classList.toggle("visible");
-        // }
-
     });
-
 });
 
 $(document).on("click", "#deleteItem", function () {
@@ -52,7 +35,6 @@ function changeBookmarkSize(catid, sizeSuffix) {
             :
             { "size": sizeSuffix }
     }
-
     let newSetting = {};
     let templateSettings = { "Settings": {} }
 
@@ -66,9 +48,8 @@ function changeBookmarkSize(catid, sizeSuffix) {
 
         Object.assign(newSetting, SettingsAdd);
         Object.assign(templateSettings['Settings'], newSetting);
-
         console.log(templateSettings);
-
+        
         chrome.storage.local.set(templateSettings).then(() => {
             console.log(sizeSuffix + " is setted to category id " + catid);
         });
@@ -89,16 +70,15 @@ $(document).on("click", "#bigwide", function () {
 });
 
 
-
 function makeCard(value, cat, key, settings) {
     $('#' + cat).append(`<div class="cardHolder" cardid="` + key + `">
     <button id="deleteItem" class="showDelete  btn" bookid="`+ key + `">X</button>
-        <a href="`+ value.URL + `" id="card" class="card-` + settings + `" style="` + value.Style + `">
+        <a href="`+ value.URL + `" id="card" class="card-` + settings + `" style="background: linear-gradient(to left, rgb(` + value.Style + `), black)">
         <div id="top" class="icon-`+ settings + `">
-            <img id="icon" src="` + value.Icon + `" alt="" title="local">
+            <img id="icon" src="` + value.EncodedIcon + `" alt="" title="local">
         </div>
         <div class="details-`+ settings + `">
-            <p class="title-`+ settings + `" id="webTitle" style="` + value.Font + `">` + value.Title + `</p>
+            <p class="title-`+ settings + `" id="webTitle" style="font-size: ` + value.Font + `px">` + value.Title + `</p>
             <p class="domainurl-`+ settings + `" id="domain" title="` + value.URL + `">` + value.Domain + `</p>
         </div>
         
@@ -111,13 +91,13 @@ function makeCard(value, cat, key, settings) {
 function buildCats(items) {
     let cats = {};
     for (const [key, value] of Object.entries(items)) {
-        // "CategoryID": "271",
-        // "CategoryTitle": "Service-Electronic",
-        catid = value.CategoryID
-        cattitle = value.CategoryTitle
-        Object.assign(cats, { [catid]: cattitle });
+        if (value.CategoryID !== undefined) {
+            catid = value.CategoryID
+            cattitle = value.CategoryTitle
+            Object.assign(cats, { [catid]: cattitle });
+        }
+
     }
-    // settings = items['Settings']
     console.log(cats);
     compareCats(cats, items)
 }
@@ -143,22 +123,20 @@ function compareCats(cats, items) {
          `);
         }
 
-
         for (const [key, value] of Object.entries(items)) {
             let catid = value.CategoryID
             let title = items['Settings']
-            // console.log(title[catid]);
+            // console.log(title);
+            // console.log(title?.[catid]);
             if (cat == catid) {
                 let settings
-                if (title[catid]) {
+
+                if (title?.[catid] !== undefined) {
                     settings = title[catid]['size']
                     // console.log(settings);
                 } else {
                     settings = 'bigwide'
                 }
-                // console.log(settings);
-                // console.log(title[catid]);
-                // console.log("comparing " + cat + "  is eq  " + catid);
                 makeCard(value, cat, key, settings)
             }
         }
