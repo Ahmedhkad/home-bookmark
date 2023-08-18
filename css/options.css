@@ -1,0 +1,42 @@
+.bookmarks-list{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    justify-content: space-evenly;
+ 
+}
+
+.option-container {
+    width: auto;
+    margin: auto;
+    text-align: center;
+    color: aliceblue;
+  }
+
+.btn,
+input::file-selector-button {
+    margin: 5px;
+    padding: 6px 17px;
+    border-radius: 16px;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    border-style: double;
+}
+.red{
+    border-color: red;
+}
+.red:hover{
+    background-color: red !important;
+}
+.green{
+    border-color: green;
+}
+.green:hover{
+    background-color: green !important;
+}
+
+input::file-selector-button {
+    border-color: yellowgreen;
+  }
