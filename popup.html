@@ -2,25 +2,15 @@
 <html>
 
 <head>
-    <title>Get URL Popup</title>
-    <!--
-        "permissions": [ "activeTab" ],
-   "short_name": "Get Favicon",
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-     -->
+    <title>Popup Home Bookmark</title>
     <link rel="icon" type="image/png" href="./icons/home-bookmark.png" />
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/color-thief.umd.js"></script>
-
     <script src="js/popup.js"></script>
-    <!-- <script src="js/title.js"></script> -->
 </head>
 
 <body>
-
 
     <div id="container">
 
@@ -45,16 +35,16 @@
                 <input class="inputHolder" type='text' id="urlInput" placeholder="URL here!">
                 <span>Category:</span>
                 <br>
-                <select class="inputHolder" id="categories" cattext="Bookmarks bar" catvalue="1" >
-                    <!-- <option value="1">Bookmarks bar</option> -->
+                <select class="inputHolder" id="categories" cattext="Bookmarks bar" catvalue="1">
+                    <option value="1">Bookmarks bar</option>
                 </select>
                 <button id="refreshButton">Reload</button>
             </div>
+
             <div class="colorsSection">
                 <span>Color:</span>
                 <br>
                 <div class="palette"></div>
-
                 <div class="rainbow palette">
                     <div color="rgb(0,0,0)" id="palette10" class="itemColor" style="--color: rgb(0,0,0);">
                     </div>
@@ -74,8 +64,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
+
         <div class="Buttons">
             <!-- <div id="maxColor"></div> -->
             <button id="checkButton">Check URL</button>
@@ -83,23 +73,15 @@
             <button id="StoreButton">Store it</button>
             <!-- <div id="minColor"></div> -->
         </div>
-        <div id="status">
 
+        <div id="status">
             <details>
                 <summary id="errTitle">Click "Check URL" to see duplicated bookmarks</summary>
-                <div id="errLog">
-
-                </div>
+                <div id="errLog"> </div>
             </details>
-
-
         </div>
 
-
-
-
     </div>
-
 </body>
 
 </html>
