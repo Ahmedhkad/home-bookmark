@@ -201,3 +201,11 @@ details {
   border-color: red;
   cursor: pointer;
 }
+
+.picker{
+  padding: 0px;
+  margin: 6px;
+  width: 63px;
+  height: 25px;
+  border-radius: 7px;
+}
