@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
-   
+
         if (this.readyState == 4 && this.status == 200) {
           const iconType = this.getResponseHeader('content-type');
           console.log(iconType)
@@ -38,11 +38,11 @@ document.addEventListener("DOMContentLoaded", () => {
           runGetColor(isSVG);
           getIconEncode(iconurl, iconType)
         }
-        
+
       };
       xhttp.open("HEAD", iconurl, true);
       xhttp.send();
-      
+
     }
 
     var webTitle = tab.title;
@@ -65,19 +65,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const getIconEncode = (url, iconType) => {
     var xhttp = new XMLHttpRequest();
     xhttp.responseType = 'arraybuffer';
-      xhttp.onload = function() {
-        //Array of 8-bit unsigned int
-        var arr = new Uint8Array(this.response);
-        // String.fromCharCode returns a 'string' from the specified sequence of Unicode values
-        var raw = String.fromCharCode.apply(null, arr);
-        //create base-64 encoded ASCII string from a String object 
-        var b64 = btoa(raw);
-        var dataURL = 'data:'+ iconType + ';base64,' + b64;
-        console.log(dataURL);
-        $('#icon').attr("src", dataURL);
-      };
-      xhttp.open("GET", url, true);
-      xhttp.send();
+    xhttp.onload = function () {
+      //Array of 8-bit unsigned int
+      var arr = new Uint8Array(this.response);
+      // String.fromCharCode returns a 'string' from the specified sequence of Unicode values
+      var raw = String.fromCharCode.apply(null, arr);
+      //create base-64 encoded ASCII string from a String object 
+      var b64 = btoa(raw);
+      var dataURL = 'data:' + iconType + ';base64,' + b64;
+      console.log(dataURL);
+      $('#icon').attr("src", dataURL);
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
   }
 
   function setCardColor() {
@@ -87,46 +87,45 @@ document.addEventListener("DOMContentLoaded", () => {
       // console.log(imgID);
       const imgRGB = $(this).attr("color");
       // console.log(imgRGB);
-      cardColor.setAttribute("style", `background: linear-gradient(to left, ${imgRGB}, black)`);
+      cardColor.setAttribute("style", `background: linear-gradient(to left, rgb(${imgRGB}), black)`);
+      cardColor.setAttribute("color", imgRGB)
     })
+
   }
+
+
 
 
   function runGetColor(isSVG) {
 
     const colorThief = new ColorThief();
 
+    const pickerInput = document.getElementById("colourPicker");
     const cardDiv = document.getElementById("card");
     const iconImg = document.getElementById("icon");
     if (isSVG) {
       console.log("Can't get favicon colors from SVG");
-
-      // $('#maxColor').attr("style", `background-color: white  `);
-      // $('#minColor').attr("style", `background-color:  black `);
-
       setCardColor();
-
     }
     else if (!isSVG) {
-
       // if (iconImg.complete) {}
       iconImg.addEventListener('load', function () {
-        cardDiv.setAttribute("style", `background: linear-gradient(to left, rgb(${colorThief.getColor(iconImg)}), black)`);
+        const rgb = colorThief.getColor(iconImg)
+        cardDiv.setAttribute("style", `background: linear-gradient(to left, rgb(${rgb}), black)`);
+        cardDiv.setAttribute("color", rgb)
+        pickerInput.setAttribute("value", rgbToHex(rgb[0], rgb[1], rgb[2]))
 
         obj = colorThief.getPalette(iconImg);
 
-        // getMinMaxColor(obj); //show Min and Max value of palettes
-
-        // $('.rainbow').attr("style", `display:none`);
         const palette = document.querySelector('.palette');
         obj.reduce((palette, rgb, pos) => {
-          const color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
-          const swatch = document.createElement('div');
-          swatch.style.setProperty('--color', color);
-          swatch.setAttribute('color', color);
-          swatch.setAttribute('id', `palette` + pos);
-          swatch.setAttribute('class', `itemColor`);
-          palette.appendChild(swatch);
+          const colorRGB = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+          const pal = document.createElement('div');
+          pal.style.setProperty('--color', colorRGB);
+          pal.setAttribute('color', rgb);
+          pal.setAttribute('id', `palette` + pos);
+          pal.setAttribute('class', `itemColor`);
+          palette.appendChild(pal);
           return palette;
         }, palette)
 
@@ -135,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
 
-    } //end else if isSVG
+    }
   }
 
   function searchBookmark(currentURL) {
@@ -145,30 +144,53 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(bookmarks);
         const currentBookmarkID = bookmarks['0'].id;
         const currentBookmarkCategory = bookmarks['0'].parentId;
+        console.log('parentId ' + currentBookmarkCategory);
 
         $('#errTitle').removeClass("red").addClass("green").text("We found this Bookmark with id: " + currentBookmarkID + "   you can (Store it)");
 
         $('#categories').attr("bookmarkid", currentBookmarkID);
+        // $('#categories').value = currentBookmarkCategory ;
+        const select = document.querySelector('#categories');
+        select.value = currentBookmarkCategory
+
       } catch (error) {
         console.log("searchs on bookmarks got no results, this url is uniqe");
         $('#StoreButton').attr("disabled", true);
       }
 
 
-
-
-      // document.getElementById('categories').value=currentBookmarkCategory;
+      // document.getElementById('categories').value = currentBookmarkCategory;
     });
   }
 
   document.getElementById("titleInput").addEventListener("keyup", function () {
     // console.log(this.value);
-
     inputTextValue = this.value;
     $('.title').text(inputTextValue);
     countTitle();
+  }, false);
+
+  document.getElementById("colourPicker").addEventListener("click", function (ev) {
+    const cardColor = document.getElementById("card");
+    $('#colourPicker').on('input',
+      function () {
+        const colorValue = $(this).val()
+        const colorRGB = hexToRgb(colorValue)
+        cardColor.setAttribute("style", `background: linear-gradient(to left, rgb(${colorRGB}), black)`);
+        cardColor.setAttribute("color", colorRGB)
+      }
+    );
 
   }, false);
+
+  const hexToRgb = hex =>
+    hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+      , (m, r, g, b) => '#' + r + r + g + g + b + b)
+      .substring(1).match(/.{2}/g)
+      .map(x => parseInt(x, 16))
+
+  const rgbToHex = (r, g, b) => '#' + [r, g, b]
+    .map(x => x.toString(16).padStart(2, '0')).join('')
 
 
 
@@ -203,13 +225,11 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       bookmarkBarChildren.forEach(function (item) {
 
-
         if (item.parentId == 1 && item.dateGroupModified) {
           let bookmarkitem = {
             "title": item.title,
             "id": item.id
           }
-
           console.log(bookmarkitem);
 
           Object.assign(bookmarkitems.bookmarksCategory, { [item.id]: bookmarkitem });
@@ -245,9 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const inside = result.bookmarksCategory
 
       for (const cat in inside) {
-
         // console.log(inside[cat]);
-
         var option = document.createElement("option");
         option.text = inside[cat].title;
         option.value = inside[cat].id;
@@ -256,27 +274,24 @@ document.addEventListener("DOMContentLoaded", () => {
         select.appendChild(option);
       }
 
-
-
-
     });
 
   } catch (error) {
     console.log("stored bookmark's category not found , please click refresh");
   }
 
+
+
   document.getElementById("checkButton").addEventListener('click', function () {
     console.log("clicked check");
-
     checkCard();
-
   });  //check button
 
   var bookmarkAdded = false;
 
+
   document.getElementById("BookmarkButton").addEventListener('click', function () {
     console.log("clicked Bookmark Button ");
-
 
     if (!bookmarkAdded) {
       console.log(bookmarkCard("add"));
@@ -289,26 +304,21 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(BookeID);
       console.log("  bookmarkCard(remove); ");
       $('#BookmarkButton').removeClass("red").addClass("green").text("Bookmark it");
-
-
     }
-
   });  //StoreButton
 
-  document.getElementById("StoreButton").addEventListener('click', function () {
-    console.log("clicked StoreButton");
 
+  document.getElementById("StoreButton").addEventListener('click', function () {
+    // console.log("clicked StoreButton");
     const changedTitle = document.querySelector('#webTitle');
     const changedURL = document.querySelector('#domain').getAttribute("title");
     const chnagedDomain = document.querySelector('#domain').innerHTML;
-    const changedCard = document.querySelector('#card').getAttribute("style");
+    const changedCardColor = document.querySelector('#card').getAttribute("color");
     const changedIcon = document.querySelector('#icon').getAttribute("src");
     const changedCategoryID = document.querySelector('#categories').getAttribute("catvalue");
     const changedCategoryTitle = document.querySelector('#categories').getAttribute("cattext");
     const bookmarkID = document.querySelector('#categories').getAttribute("bookmarkid");
-    const changedFont = document.querySelector('#webTitle').getAttribute("style");
-
-
+    const changedFont = document.querySelector('#webTitle').getAttribute("fontsize");
 
     chrome.storage.local.set({
       [bookmarkID]: {
@@ -316,16 +326,14 @@ document.addEventListener("DOMContentLoaded", () => {
         "Font": changedFont,
         "URL": changedURL,
         "Domain": chnagedDomain,
-        "Style": changedCard,
-        "Icon": changedIcon,
+        "Color": changedCardColor,
+        "EncodedIcon": changedIcon,
         "CategoryID": changedCategoryID,
         "CategoryTitle": changedCategoryTitle
       }
     }).then(() => {
       console.log("Value is set stored local");
     });
-
-
 
   });  //end StoreButton
 
@@ -336,57 +344,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-function getMinMaxColor(obj) {
-  // console.log(obj);
+// function getMinMaxColor(obj) {
+//   // console.log(obj);
 
-  var map1 = obj.map(([a, b, c]) => [a + b + c])
-  // console.log(map1);
+//   var map1 = obj.map(([a, b, c]) => [a + b + c])
+//   // console.log(map1);
 
-  maxV = Math.max.apply(null, map1);
-  // console.log(maxV);
-  minV = Math.min.apply(null, map1);
-  // console.log(minV);
+//   maxV = Math.max.apply(null, map1);
+//   // console.log(maxV);
+//   minV = Math.min.apply(null, map1);
+//   // console.log(minV);
 
-  const indexmaxV = map1.reduce((accumulator, current, index) => {
-    return current > map1[accumulator] ? index : accumulator;
-  }, 0);
-  // console.log(indexmaxV);
-  // console.log(obj[indexmaxV]);
+//   const indexmaxV = map1.reduce((accumulator, current, index) => {
+//     return current > map1[accumulator] ? index : accumulator;
+//   }, 0);
+//   // console.log(indexmaxV);
+//   // console.log(obj[indexmaxV]);
 
-  const indexminV = map1.reduce((accumulator, current, index) => {
-    return current < map1[accumulator] ? index : accumulator;
-  }, 0);
-  // console.log(indexminV);
-  // console.log(obj[indexminV]);
+//   const indexminV = map1.reduce((accumulator, current, index) => {
+//     return current < map1[accumulator] ? index : accumulator;
+//   }, 0);
+//   // console.log(indexminV);
+//   // console.log(obj[indexminV]);
 
-  $('#maxColor').attr("style", `background-color:  rgb(${obj[indexmaxV]}) `);
-  $('#minColor').attr("style", `background-color:  rgb(${obj[indexminV]}) `);
+//   $('#maxColor').attr("style", `background-color:  rgb(${obj[indexmaxV]}) `);
+//   $('#minColor').attr("style", `background-color:  rgb(${obj[indexminV]}) `);
 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// }
 
 
 
@@ -403,9 +387,6 @@ function countTitle() {
 
   $(".title").each((i, el) => {
     var length = $(el).text().length;
-
-    // console.log("letters " + length);
-
     Number.prototype.map = function (in_min, in_max, out_min, out_max) {
       return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
@@ -415,14 +396,15 @@ function countTitle() {
     else if (length > 34) {
       length = 35;
     }
-
     var fontsize = Math.floor(length.map(10, 35, 25, 15));
     console.log("fontsize " + fontsize);
 
     $(".title").css("fontSize", fontsize);
-  });
 
-} // countTitle end
+    const changedTitle = document.querySelector('#webTitle');
+    changedTitle.setAttribute("fontsize", fontsize)
+  });
+}
 
 var BookeID = -1;
 chrome.bookmarks.onCreated.addListener(
@@ -510,7 +492,7 @@ function checkCard() {
   // console.log(changedFaviconURL.getAttribute("href"));
 
   chrome.bookmarks.getTree(function (itemTree) {
-    console.log(itemTree);
+    // console.log(itemTree);
     itemTree.forEach(function (item) {
       processNode(item);
     });
@@ -555,14 +537,13 @@ function checkCard() {
 
 
   //to publish to server as <div> outerHtml
-  const changedCARD = document.querySelector('#card');
-  console.log(changedCARD);
+  // const changedCARD = document.querySelector('#card');
+  // console.log(changedCARD);
 
 
 }
 
 $(document).on("click", "#similar", function () {
-  // Do something with `$(this)`.
   similarid = this.attributes.bookid.nodeValue;
   // console.dir(this);
   chrome.bookmarks.remove(similarid, (Removed) => {
