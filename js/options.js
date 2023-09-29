@@ -1,5 +1,209 @@
 const allBookmarks = {}
 
+const autoGenerate = () => {
+    console.log('auto gen started');
+    async function logTree(bookmarkItems) {
+        const countBooks = countBookmarks(bookmarkItems)
+        console.log(countBooks);
+        AutoGenBookmarks(bookmarkItems[0], countBooks);
+    }
+    function onRejected(error) {
+        console.log(`autoGenerate error: ${error}`);
+    }
+    let gettingTree = chrome.bookmarks.getTree();
+    gettingTree.then(logTree, onRejected);
+}
+
+const countBookmarks = (bookmarks) => {
+    let count = 0
+    process_bookmark(bookmarks)
+    function process_bookmark(bookmarks) {
+        for (var i = 0; i < bookmarks.length; i++) {
+            var bookmark = bookmarks[i];
+            if (bookmark.url) {
+                // console.log("bookmark: "+ bookmark.title + " ~  " + bookmark.url);
+                count++
+            }
+            if (bookmark.children) {
+                process_bookmark(bookmark.children);
+            }
+        }
+    }
+    return count
+}
+
+const AutoGenBookmarks = (books, counts) => {
+
+    logItems(books);
+    var elem = document.getElementById("myBar");
+    const textBar = document.getElementById("text-bar");
+            var width = 1;
+            let thisCount = 0
+
+    async function logItems(bookmarkItem, parentId) {
+        if (bookmarkItem.url) {
+            let bookmarkDetails = {}
+            const url = bookmarkItem.url
+            const title = bookmarkItem.title
+            const font = await getFontSize(title)
+            const domain = await makeDomain(url)
+            const size = 64
+            const IconURLGoogle = `https://www.google.com/s2/favicons?domain=${domain}&sz=${size}`
+            console.log('fetching G: ', IconURLGoogle);
+            encode64 = await doEncode(IconURLGoogle)
+            if (encode64.state === 404) {
+                console.log('\x1b[34m%s\x1b[0m', "Google favicon not found, trying DuckDuckGo"); //blue log
+                const IconURLDuckDuckGo = `https://icons.duckduckgo.com/ip3/${domain}.ico`
+                const encode64 = await doEncode(IconURLDuckDuckGo)
+            }
+            if (encode64.state === 404) {
+                encode64.data = null
+            }
+            let color = null
+            if (encode64.state === 200) {
+                color = await getImageFromBase64string(encode64.data)
+            }
+
+            bookmarkDetails[bookmarkItem.id] = {
+                "Title": title,
+                "URL": url,
+                "CategoryID": parentId,
+                "CategoryTitle": parentTitle,
+                "Index": bookmarkItem.index,
+                "Domain": domain,
+                "EncodedIcon": encode64.data,
+                "Color": color,
+                "Font": font
+            }
+            console.log(bookmarkDetails);
+            allBookmarks[bookmarkItem.id] = bookmarkDetails[bookmarkItem.id]
+
+            document.getElementById('storage').value = JSON.stringify(bookmarkDetails)
+            thisCount++;
+            width = (thisCount/counts)*100
+            textBar.innerHTML = thisCount + '/ ' +counts
+            elem.style.width = width + "%";
+            if(thisCount === counts){
+                textBar.innerHTML = "All Bookmarks added Successfully!"
+            }
+             displayOneCard(bookmarkDetails[bookmarkItem.id])
+
+        } else {
+            parentTitle = bookmarkItem.title
+        }
+        if (bookmarkItem.children) {
+            for (const child of bookmarkItem.children) {
+                parentId = child.parentId
+                await logItems(child, parentId);
+            }
+        }
+    }
+
+}
+
+const makeDomain = async (url) => {
+    return new Promise(resolve => {
+        setTimeout(async () => {
+            const Domain = await new URL(url).hostname
+            resolve(Domain)
+        }, 1)
+    })
+}
+
+const doEncode = (url) => {
+    return new Promise(async function (resolve, reject) {
+        try {
+            console.log(`trying...  ${url}`);
+            await fetch(url)
+                .then(async (response) => {
+                    if (!response.ok) {
+                        // resolve(null);
+                        // throw new Error(`Fetch HTTP error! Status: ${response.status} its local server or not found , ytu DucDuckGo icons service , current url is  ${url}`); 
+                    }
+                    const buffer = await response.arrayBuffer();
+                    const type = response.headers.get("Content-Type")
+                    var arr = new Uint8Array(buffer);
+                    var raw = String.fromCharCode.apply(null, arr);
+                    var b64 = btoa(raw);
+                    var dataURL = 'data:' + type + ';base64,' + b64;
+                    console.log('\x1b[32m%s\x1b[0m', response.status)
+                    // resolve(dataURL)
+                    resolve({ data: dataURL, state: response.status });
+                })
+        }
+        catch (e) {
+            console.log('\x1b[31m%s\x1b[0m', e.message)
+        }
+    })
+}
+
+
+
+
+const getFontSize = async (title) => {
+    return new Promise(resolve => {
+        setTimeout(async () => {
+            let length = title.length;
+            Number.prototype.map = function (in_min, in_max, out_min, out_max) {
+                return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+            }
+            if (length <= 5) {
+                length = 5;
+            }
+            else if (length > 34) {
+                length = 35;
+            }
+            var fontsize = Math.floor(length.map(10, 35, 25, 15));
+            resolve(fontsize)
+        }, 1)
+    })
+}
+ 
+async function getImageFromBase64string(b64str) {
+    const img = document.createElement('img');
+    await new Promise((r) => {
+        img.src = b64str;
+        img.onload = r;
+    })
+    const colorThief = new ColorThief();
+    const rgba = colorThief.getColor(img);
+    if (!rgba) {
+        return 'rgba(0,0,0,0)'; // seems to happen on white image
+    } else {
+        return rgba;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const storeBookmarks = () => {
     function logItems(bookmarkItem, indent, parentId) {
         let url
@@ -98,26 +302,33 @@ const generateIconEncode = (url, id) => {
 
 
 const showCards = () => {
-    cardStyle = 'bigwide'
+    
     $("#Log").html('')
     for (const id in allBookmarks) {
         if (Object.hasOwnProperty.call(allBookmarks, id)) {
             const element = allBookmarks[id];
-
-            $("#Log").append(
-                `<a href="` + element.URL + `" id="card" class="card-` + cardStyle + `" style="
-            background: linear-gradient(to left, rgb(${element.Style}), black)
-            ">
-                <div id="top" class="icon-`+ cardStyle + `">
-                    <img id="icon" src="` + element.EncodedIcon + `" alt="" title="local">
-                </div>
-                <div class="details-`+ cardStyle + `">
-                    <p class="title-`+ cardStyle + `" id="webTitle" style="font-size: 17px;">` + element.Title + `</p>
-                    <p class="domainurl-`+ cardStyle + `" id="domain" title="` + element.URL + `">` + element.Domain + `</p>
-                </div>
-            </a>  `)
+            displayOneCard(element)
         }
     }
+}
+
+const displayOneCard = async (element) =>{
+     
+    cardStyle = 'bigwide'
+      $("#Log").append(
+        `<a href="` + element.URL + `" id="card" class="card-` + cardStyle + `" style="
+    background: linear-gradient(to left, rgb(${element.Color}), black)
+    ">
+        <div id="top" class="icon-`+ cardStyle + `">
+            <img id="icon" src="` + element.EncodedIcon + `" alt="" title="local">
+        </div>
+        <div class="details-`+ cardStyle + `">
+            <p class="title-`+ cardStyle + `" id="webTitle" style="font-size: ` + element.Font + `px;">` + element.Title + `</p>
+            <p class="domainurl-`+ cardStyle + `" id="domain" title="` + element.URL + `">` + element.Domain + `</p>
+        </div>
+    </a>  `)
+      
+     
 }
 
 async function getImageFromBase64str(b64str, id) {
@@ -160,6 +371,7 @@ const saveToStorage = () => {
     });
     printStorage()
 }
+
 function downloadTextFile(text, name) {
     const a = document.createElement('a');
     const type = name.split(".").pop();
@@ -193,7 +405,6 @@ function readSingleFile(event) {
     } else {
         console.dir("Failed to load file");
     }
-
 }
 
 const clearStorage = () => {
@@ -206,7 +417,6 @@ const clearStorage = () => {
     });
 }
 
-
 const printAllBookmarks = () => {
     const textArea = document.getElementById('storage')
     textArea.innerHTML = ('Loading ... ')
@@ -216,7 +426,7 @@ const printAllBookmarks = () => {
     }, 1000);
 }
 
-const printStorage = () => {
+const showStorage = () => {
     chrome.storage.local.get(null, (items) => {
         console.log(items);
         document.getElementById('storage').value = JSON.stringify(items)
@@ -231,8 +441,9 @@ document.getElementById('saveToStorage').addEventListener('click',
 
 document.getElementById('downloadStorage').addEventListener('click',
     downloadStorage);
+
 document.getElementById('showStorage').addEventListener('click',
-    printStorage);
+    showStorage);
 
 document.getElementById('clearStorage').addEventListener('click',
     clearStorage);
@@ -251,4 +462,7 @@ document.getElementById('getIconColor').addEventListener('click',
 );
 document.getElementById('showCards').addEventListener('click',
     showCards
+);
+document.getElementById('autoGenerate').addEventListener('click',
+    autoGenerate
 );
