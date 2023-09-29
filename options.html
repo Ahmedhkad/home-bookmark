@@ -18,6 +18,10 @@
   <div class="option-container">
     <h2>Options Home Bookmark</h2>
 
+    <div class="auto-generate">
+      <button class="btn green" id="autoGenerate">Auto Generate</button>
+    </div>
+
     <div class="bookmark-options">
       <button class="btn green" id="storeBookmarks">Store Bookmarks</button>
       <button class="btn green" id="getIcons">getIcons</button>
@@ -31,6 +35,10 @@
       <button class="btn green" id="downloadStorage">downloadStorage</button>
       <input class=" " type="file" id="file-selector" accept=".json,.txt">
       <button class="btn red" id="clearStorage">clearStorage</button>
+    </div>
+
+    <div id="myProgress">
+      <div id="myBar"> <p id="text-bar"> 1/100</p> </div>
     </div>
 
     <textarea id="storage" rows="8" cols="100" readonly>
