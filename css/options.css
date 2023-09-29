@@ -40,3 +40,27 @@ input::file-selector-button {
 input::file-selector-button {
     border-color: yellowgreen;
   }
+
+
+  #myProgress {
+    width: 80%;
+    margin: auto;
+    background-color: #d2c6ec;
+    border-radius: 25px;
+  }
+  
+  #myBar {
+    width: 0.1%;
+    height: 30px;
+    background-color: #008000;
+    /* text-align-last: center; */
+    
+    border-radius: 25px;
+   
+  }
+  #text-bar{
+    position: absolute;
+    left: 47%;
+    margin: 6px;
+    color: black;
+  }
