@@ -25,6 +25,10 @@ $(document).on("click", "#deleteItem", function () {
         console.log(result);
     });
 
+    chrome.bookmarks.remove(itemToRemove, answer =>{
+        console.log(answer);
+    })
+
     $(this).parents('.cardHolder').remove();
 
 });
@@ -71,11 +75,13 @@ $(document).on("click", "#bigwide", function () {
 
 
 function makeCard(value, cat, key, settings) {
+    const icon = (value.EncodedIcon)? value.EncodedIcon : './icons/default.png'
+
     $('#' + cat).append(`<div class="cardHolder" cardid="` + key + `">
     <button id="deleteItem" class="showDelete  btn" bookid="`+ key + `">X</button>
-        <a href="`+ value.URL + `" id="card" class="card-` + settings + `" style="background: linear-gradient(to left, rgb(` + value.Style + `), black)">
+        <a href="`+ value.URL + `" id="card" class="card-` + settings + `" style="background: linear-gradient(to left, rgb(` + value.Color + `), black)">
         <div id="top" class="icon-`+ settings + `">
-            <img id="icon" src="` + value.EncodedIcon + `" alt="" title="local">
+            <img id="icon" src="` +  icon  + `" alt="" title="local">
         </div>
         <div class="details-`+ settings + `">
             <p class="title-`+ settings + `" id="webTitle" style="font-size: ` + value.Font + `px">` + value.Title + `</p>
