@@ -225,7 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       bookmarkBarChildren.forEach(function (item) {
 
-        if (item.parentId == 1 && item.dateGroupModified) {
+        // if (item.parentId == 1 && item.dateGroupModified) {
+        if ( item.dateGroupModified) {
           let bookmarkitem = {
             "title": item.title,
             "id": item.id
