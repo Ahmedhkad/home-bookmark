@@ -9,22 +9,23 @@ let templateTopListsSettings = { "topListsSettings": {} }
 
 document.addEventListener("DOMContentLoaded", () => {
     // Initialize a variable to track the drag and drop ability
-    let dragAndDropEnabled = false;
+    let TemplateAreaEnabled = false;
 
-    // Function to toggle drag and drop ability
-    function toggleDragAndDrop() {
-        dragAndDropEnabled = !dragAndDropEnabled; // Toggle the variable
+    // Function to toggle template drop area
+    function toggleTemplateArea() {
+        TemplateAreaEnabled = !TemplateAreaEnabled; // Toggle the variable
 
-        // Get all elements with the class "cardHolder"
-        const cardHolders = document.querySelectorAll('.cardHolder');
+        const lists = document.querySelectorAll('.list');
+        const dropArea = document.getElementById("dropArea");
 
-        // Enable or disable drag and drop for each card holder
-        cardHolders.forEach(cardHolder => {
-            if (dragAndDropEnabled) {
-                cardHolder.setAttribute('draggable', true); // Enable drag and drop
+        // toggle list class showlist and hide-drop-area
+        lists.forEach(list => {
+            if (TemplateAreaEnabled) {
+                list.classList.add("showList");
+                dropArea.classList.remove("hide-drop-area")
             } else {
-                cardHolder.removeAttribute('draggable'); // Disable drag and drop
-                cardHolder.setAttribute('draggable', false);
+                list.classList.remove("showList");
+                dropArea.classList.add("hide-drop-area")
             }
         });
     }
@@ -38,8 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
             item.classList.toggle("visible");
         });
 
-        // Toggle drag and drop ability
-        toggleDragAndDrop();
+        // Toggle template drop area
+        toggleTemplateArea();
     });
 });
 
@@ -330,6 +331,28 @@ document.addEventListener("DOMContentLoaded", () => {
                     list.insertBefore(itemElement, existingItems[insertIndex]);
                 }
             }
+        }
+    });
+
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const dropArea = document.getElementById("dropArea"); // Append to dropArea
+
+    // Add event listener for dragover to allow dropping over dropArea
+    dropArea.addEventListener('dragover', function (event) {
+        event.preventDefault();
+    });
+
+    dropArea.addEventListener('drop', function (event) {
+        event.preventDefault();
+        const targetList = event.target.closest('.drop-area');
+        const itemId = event.dataTransfer.getData('text/plain');
+        const item = document.getElementById(itemId);
+
+        if (item) {
+            targetList.appendChild(item);
+            item.classList.remove('dragging');
         }
     });
 
