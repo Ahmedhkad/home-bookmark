@@ -72,25 +72,61 @@ body {
   color: aliceblue;
 }
 
+.drop-area{
+  display: ruby-text;
+    min-height: 76px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border-style: dashed;
+    min-width: 280px;
+    max-height: 200px;
+    background-color: #ffffff61;
+    overflow-y: auto;
+}
+.drop-note{
+  position: absolute;
+    text-align: -webkit-center;
+    /* z-index: 2; */
+    font-size: large;
+    left: 35%;
+}
+
+.hide-drop-area{
+  display: none !important;
+}
+
 #bookmarkbar {
   display: flex;
   justify-content: center;
 }
 
 .list {
- min-width: 90px;
- min-height: 90px;
- /* border: 1px solid #ccc; */
- margin: 6px;
- /* overflow-y: auto;*/
+  /* min-width: 90px; */
+  min-height: 90px;
+  /* border: 1px solid #ccc; */
+  /* margin: 6px; */
+  /* overflow-y: auto;*/
+
+  /* display: inline-grid;
+    align-items: start; */
+}
+.list .cardHolder{
+  margin: 6px;
+}
+
+.showList{
+  min-width: 90px;
+  border: 1px solid #ccc;
 }
 
 .item {
- background-color: #f0f0f0;
- padding: 10px;
- margin-bottom: 5px;
- cursor: grab;
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin-bottom: 5px;
+  cursor: grab;
 }
+
 
 /* Style for the card when being dragged */
 .cardHolder.dragging {
