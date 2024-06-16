@@ -73,7 +73,8 @@ const AutoGenBookmarks = (books, counts) => {
                 "Domain": domain,
                 "EncodedIcon": encode64.data,
                 "Color": color,
-                "Font": font
+                "Font": font,
+                "Style": "smallwide"
             }
             console.log(bookmarkDetails);
             allBookmarks[bookmarkItem.id] = bookmarkDetails[bookmarkItem.id]
