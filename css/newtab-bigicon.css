@@ -1,0 +1,66 @@
+   /* bigicon */
+
+   .card-bigicon {
+    box-shadow: 0px 0px 7px 0px grey;
+    background-color: transparent !important;
+    text-align: center;
+    border-radius: 5px;
+    overflow: hidden;
+    /* margin: 2em auto; */
+    margin-top: 15px;
+    height: 70px !important;
+    width: 70px !important;
+    display: flex;
+    text-decoration: none !important;
+    flex-direction: column;
+  }
+  
+  .details-bigicon {
+    /* margin-top: -6px;
+    padding-bottom: 4px; */
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    /* padding: 5px; */
+    height: 100%;
+  
+    color: lemonchiffon;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .title-bigicon {
+    /* padding: 5px; */
+    margin: 0;
+    /* text-shadow: 4px 4px 5px #000000, -3px 7px 5px #000000; */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    font-size: 13px !important;
+  }
+  
+  .domainurl-bigicon {
+    display: none;
+  }
+
+  .icon-bigicon {
+    display: flex;
+    padding-left: 20px;
+
+    padding-top: 9px;
+    align-items: center;
+    position: relative;
+    /* overflow: hidden; */
+    height: 100%;
+    float: left;
+  }
+  .card-bigicon img {
+    height: 36px;
+  }
+
+  .cardHolder{
+    padding-left: 5px;
+    padding-right: 5px;
+  }
