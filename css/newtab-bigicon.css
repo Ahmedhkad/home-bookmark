@@ -1,10 +1,11 @@
    /* bigicon */
 
    .card-bigicon {
-    box-shadow: 0px 0px 7px 0px grey;
-    background-color: transparent !important;
+    /* box-shadow: 0px 0px 7px 0px grey; */
+    /* background-color: transparent !important; */
+    background: transparent !important;
     text-align: center;
-    border-radius: 5px;
+    /* border-radius: 5px; */
     overflow: hidden;
     /* margin: 2em auto; */
     margin-top: 15px;
@@ -47,9 +48,9 @@
 
   .icon-bigicon {
     display: flex;
-    padding-left: 20px;
+    padding-left: 17px;
 
-    padding-top: 9px;
+    padding-top: 1px;
     align-items: center;
     position: relative;
     /* overflow: hidden; */
@@ -57,10 +58,10 @@
     float: left;
   }
   .card-bigicon img {
-    height: 36px;
+    height: 40px;
   }
 
-  .cardHolder{
+  /* .cardHolder{
     padding-left: 5px;
     padding-right: 5px;
-  }
+  } */
