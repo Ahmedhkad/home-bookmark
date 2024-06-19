@@ -33,10 +33,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add click event listener to the button
     document.getElementById("showDel").addEventListener('click', function () {
         const deleteItems = document.querySelectorAll('.btn');
+        const cardHolders = document.querySelectorAll('.cardHolder');
 
         // Toggle visibility of delete items
         deleteItems.forEach(item => {
             item.classList.toggle("visible");
+        });
+        // Toggle visibility of padding items
+        cardHolders.forEach(item => {
+            item.classList.toggle("padding-card");
         });
 
         // Toggle template drop area
@@ -121,10 +126,10 @@ function makeCard(value, cat, key, settings) {
 
     card.innerHTML = `
         <button class="showDelete btn" id="deleteItem" bookid="${key}">X</button>
-        <button class="showStyle btn" id="showStyle" bookid="${key}" bookstyle="${value.Style}">CH</button>
+        <button class="showStyle btn" id="showStyle" bookid="${key}" bookstyle="${value.Style}"><img src="/icons/change.svg" ></button>
         <a href="${value.URL}" id="card" class="card-${settings}" style="background: linear-gradient(to left, rgb(${value.Color}), black)">
             <div id="top" class="icon-${settings}">
-                <img id="icon" src="${icon}" alt="" title="local">
+                <img style="/* filter:drop-shadow(0px 0px 2px rgb(${value.Color}));/* " id="icon" src="${icon}" alt="" title="local">
             </div>
             <div class="details-${settings}">
                 <p class="title-${settings}" id="webTitle" style="font-size: ${value.Font}px">${value.Title}</p>
