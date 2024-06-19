@@ -63,6 +63,10 @@ body {
   height: 44px;
 }
 
+.padding-card {
+  padding-top: 10px;
+}
+
 #tabcontainer {
   width: auto;
   /* width: fit-content; */
@@ -205,18 +209,14 @@ body {
 
 .showDelete {
   position: absolute;
-  right: 0;
-  margin-top: 15px;
+  right: 0px;
+  margin-top: -7px;
   visibility: hidden;
-  
-  background-color: red;
+  background-color:  #f14040;;
   color: white;
   cursor: pointer;
-  /* border-top-left-radius: 13px;
-    border-top-right-radius: 13px;
-    border-style: none; */
-  border-radius: 8px;
-  border-style: solid;
+  border-radius: 6px;
+  border-style: none;
   border-color: white;
   font-size: 20px;
   font-weight: bold;
@@ -224,22 +224,24 @@ body {
 }
 .showStyle {
   position: absolute;
-  right: 34px;
-  margin-top: 15px;
+  right: 22px;
+  margin-top: -8px;
   visibility: hidden;
-  
-  background-color: rgb(19, 143, 75);
+  background-color: transparent;
+  /* background-color: rgb(19, 143, 75); */
   color: white;
   cursor: pointer;
-  /* border-top-left-radius: 13px;
-    border-top-right-radius: 13px;
-    border-style: none; */
-  border-radius: 8px;
-  border-style: solid;
+  /* border-radius: 8px; */
+  border-style: none;
   /* border-color: white; */
   font-size: 20px;
   font-weight: bold;
   z-index: 1;
+}
+
+.showStyle img {
+  background-color: lightgreen;
+  border-radius: 18%;
 }
 .visible{
    visibility: inherit !important;
@@ -266,11 +268,13 @@ body {
 }
 
 .smallwide {
-  right: 67px;
+  right: 139px;
+    top: -1px;
   background-color: rgba(6, 153, 84, 0.5);
 }
 .bigwide {
-  right: 35px;
+  right: 110px;
+    top: -1px;
   background-color: rgba(220, 230, 81, 0.692);
 }
 
