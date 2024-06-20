@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let searching = chrome.bookmarks.search({ url: currentURL });
     searching.then((bookmarks) => {
       try {
-        console.log(bookmarks);
+        console.log("searchBookmark is: ", bookmarks);
         const currentBookmarkID = bookmarks['0'].id;
         const currentBookmarkCategory = bookmarks['0'].parentId;
         console.log('parentId ' + currentBookmarkCategory);
@@ -212,16 +212,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("refreshButton").addEventListener('click', function () {
     console.log("clicked refresh");
-
+    $('#categories').html(''); //clean options
     chrome.bookmarks.getTree(function (itemTree) {
-      const bookmarkBarChildren = itemTree[0].children[0].children
-      // console.log(bookmarkBarChildren);
+      // const bookmarkBarChildren = itemTree[0].children[0].children
+      const bookmarkBarChildren = itemTree[0].children
+      console.log("bookmarkBarChildren itemTree[0]", itemTree[0]);
       let bookmarkitems = {
         "bookmarksCategory": {
-          1
-            :
-            { title: 'Bookmarks bar', id: '1' }
-        }
+           }
       };
       bookmarkBarChildren.forEach(function (item) {
 
@@ -231,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "title": item.title,
             "id": item.id
           }
-          console.log(bookmarkitem);
+          console.log("bookmarkitem das", bookmarkitem);
 
           Object.assign(bookmarkitems.bookmarksCategory, { [item.id]: bookmarkitem });
           var option = document.createElement("option");
@@ -251,8 +249,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       chrome.storage.local.get(["bookmarksCategory"]).then((result) => {
-        console.log("Value currently is ");
-        console.log(result);
+        console.log("bookmarksCategory Values currently is ", result);
+        // console.log(result);
       });
 
     });
@@ -261,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   try {
     chrome.storage.local.get(['bookmarksCategory']).then((result) => {
-      console.log("Value currently is ");
+      console.log("try get(['bookmarksCategory'])   is ");
       console.log(result);
       const inside = result.bookmarksCategory
 
@@ -330,7 +328,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "Color": changedCardColor,
         "EncodedIcon": changedIcon,
         "CategoryID": changedCategoryID,
-        "CategoryTitle": changedCategoryTitle
+        "CategoryTitle": changedCategoryTitle,
+        "Style":"smallwide"
       }
     }).then(() => {
       console.log("Value is set stored local");
