@@ -219,30 +219,56 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("bookmarkBarChildren itemTree[0]", itemTree[0]);
       let bookmarkitems = {
         "bookmarksCategory": {
-           }
+        }
       };
-      bookmarkBarChildren.forEach(function (item) {
+      let indexer = 0;
 
-        // if (item.parentId == 1 && item.dateGroupModified) {
-        if ( item.dateGroupModified) {
-          let bookmarkitem = {
-            "title": item.title,
-            "id": item.id
+      function processBookmark(item, depth, isLast) {
+        let prefix = "";
+        if (depth > 0) {
+          prefix += "\u00A0".repeat((depth - 1) * 4); // Adjust spacing as needed
+          if (item.children && item.children.some(child => child.dateGroupModified)) {
+            prefix += "[-]";
+          } else {
+            prefix += "|_";
           }
-          console.log("bookmarkitem das", bookmarkitem);
+          prefix += "\u00A0"; // Add space for indentation after prefix
+        }
+        console.log(prefix + " " + item.title);
+        indexer++;
 
-          Object.assign(bookmarkitems.bookmarksCategory, { [item.id]: bookmarkitem });
-          var option = document.createElement("option");
-          option.text = item.title;
-          option.value = item.id;
-
-          var select = document.getElementById("categories");
-          select.appendChild(option);
-
+        let bookmarkitem = {
+          "title": item.title,
+          "id": item.id,
+          "prefixedTitle": prefix + " " + item.title,
+          "indexer": indexer
         }
 
+        Object.assign(bookmarkitems.bookmarksCategory, { [item.id]: bookmarkitem });
+
+        var option = document.createElement("option");
+        option.text = prefix + " " + item.title;
+        option.value = item.id;
+
+        var select = document.getElementById("categories");
+        select.appendChild(option);
+
+        if (item.children) {
+          const folders = item.children.filter(child => child.dateGroupModified); // Filter out non-folder items
+          const childrenCount = folders.length;
+          folders.forEach(function (child, index) {
+            const isLastChild = index === childrenCount - 1;
+            processBookmark(child, depth + 1, isLastChild);
+          });
+        }
+      }
+
+      const folders = bookmarkBarChildren.filter(child => child.dateGroupModified); // Filter out non-folder items
+      const foldersCount = folders.length;
+      folders.forEach(function (item, index) {
+        const isLastItem = index === foldersCount - 1;
+        processBookmark(item, 0, isLastItem);
       });
-      console.log(bookmarkitems);
 
       chrome.storage.local.set(bookmarkitems).then(() => {
         console.log("bookmarkitems is set");
@@ -263,11 +289,14 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(result);
       const inside = result.bookmarksCategory
 
-      for (const cat in inside) {
-        // console.log(inside[cat]);
+      // Convert object values to an array and sort by indexer
+      const cats = Object.values(inside).sort((a, b) => a.indexer - b.indexer);
+
+      for (const cat in cats) {
+        // console.log(cats[cat]);
         var option = document.createElement("option");
-        option.text = inside[cat].title;
-        option.value = inside[cat].id;
+        option.text = cats[cat].prefixedTitle;
+        option.value = cats[cat].id;
 
         var select = document.getElementById("categories");
         select.appendChild(option);
@@ -329,7 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "EncodedIcon": changedIcon,
         "CategoryID": changedCategoryID,
         "CategoryTitle": changedCategoryTitle,
-        "Style":"smallwide"
+        "Style": "smallwide"
       }
     }).then(() => {
       console.log("Value is set stored local");
@@ -534,11 +563,6 @@ function checkCard() {
 
   }
 
-
-
-  //to publish to server as <div> outerHtml
-  // const changedCARD = document.querySelector('#card');
-  // console.log(changedCARD);
 
 
 }
