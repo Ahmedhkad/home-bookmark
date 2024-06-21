@@ -1,9 +1,8 @@
 # Home Bookmark
-Is a Chrome's extension makes new tab page with all your Favorite Bookmarks
-& A tool that help you get Favicon with colorful background as same as favicon main color automatically
+Chrome extension for a customized new tab page with your favorite bookmarks and automatic favicon background color extraction.
 
 ## features
-1. Popup (click Icon on browser's toolbar)
+1. **Popup** (click Icon on browser's toolbar)
  - Get Title, Current Page URL, FavIcon and FavIcon main color
  - Change the Title, URL and Category before bookmarking it or Store it
  - Add/Remove bookmark (when popup windows still open!)
@@ -11,11 +10,16 @@ Is a Chrome's extension makes new tab page with all your Favorite Bookmarks
  - Font size in card changed automatically by the length of title and trimmed on the 35th letter
  - Check if current tab's url is duplicated in bookmark
  - "Check URL" found similar bookmark from current domain , and ability to remove bookmark by click (X)
-2. "New Tab" UI
+2. **"New Tab"** UI
  - Generating bookmarks categories and fill every category with Stored data on `chrome.storage.local` 
  - Stored data contain (URL, Ttitle, Favicon URL, Color, Category ID, CategoryTitle, Font size)
  - Change bookmark's style by click "show options"
  - You can delete bookmark from UI (from chrome.storage.local)
+
+3. **New Feature (v0.5.0):**
+   - Ability to drag and drop saved bookmark items on the new tab, enabling organization at the top of the page.
+   - Added two new styles: "big icon" resembling Android icons and "small icon" displaying small favicons of saved sites.
+   - Enhanced UI with the option to toggle between styles (smallwide, bigwide, bigicon, smallicon) via "show options".
 
 ## Install
 
@@ -45,9 +49,7 @@ Clicking "Check URL" shows similar bookmarks that contains same domain
 ## Work in progress
 - Store and Bookmark could be done together 
 - Store it buttons save it to chrome.storage.local soon will be in storage.sync and option to some database
-- add one more styles for bookmark in UI
 - improve UI CSS , until now still use css column , maybe i will back to grid or flex box better
 
 ## known bugs
-- popup sometimes can't catch favicon's color (sync and function problems)
-- in new tab UI , sometimes can't get data from (chrome.local.storage) 
+- popup sometimes can't catch favicon's color (if favicon is svg format , or from local server sometimes)
