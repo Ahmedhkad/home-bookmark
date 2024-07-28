@@ -9,7 +9,7 @@ body {
   border-radius: 5px;
   overflow: hidden;
   /* margin: 2em auto; */
-  margin-top: 15px;
+  /* margin-top: 15px; */
   height: 70px !important;
   width: 260px !important;
   display: block;
@@ -67,6 +67,10 @@ body {
   padding-top: 10px;
 }
 
+.padding-card::has(+ .list-control) {
+  padding-bottom: 30px;
+}
+
 #tabcontainer {
   width: auto;
   /* width: fit-content; */
@@ -107,9 +111,16 @@ body {
 
 #bookmarkbar {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
+.center{
+  display: flex;
+  justify-content: center;
+}
+.left , .right{
+  display: contents;
+}
 .list {
   max-width: 270px;
   /* min-width: 90px; */
@@ -128,7 +139,8 @@ body {
 
 .showList{
   min-width: 90px;
-  border: 1px solid #ccc;
+    border: 1px solid #cccccc82;
+    border-style: dashed;
 }
 
 .item {
